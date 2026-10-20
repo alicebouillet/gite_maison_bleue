@@ -1,0 +1,172 @@
+/* ═══════════════════════════════════════════════════════════
+   LA MAISON BLEUE — feuille de style commune
+   Vitrine (index.html) + espace propriétaire (admin.html)
+   ═══════════════════════════════════════════════════════════ */
+
+:root{
+  --fond:#F5F8FC;
+  --encre:#0F2747;
+  --texte:#3A5273;
+  --label:#4A6283;
+  --bord:#DCE6F2;
+  --pale:#DCE8F7;
+  --pale2:#C7D9EF;
+  --bleu-clair:#7FA6D8;
+  --accent:#1F5FAF;
+  --accent-fonce:#123E7A;
+  --blanc:#FFFFFF;
+  --vert:#1E7A5A;
+  --vert-pale:#DFF1E9;
+  --ambre:#9A6700;
+  --ambre-pale:#FDF3D7;
+  --rouge:#A3324C;
+  --rouge-pale:#FBE4E9;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:84px}
+body{
+  margin:0;background:var(--fond);color:var(--encre);
+  font-family:Inter,system-ui,-apple-system,"Segoe UI",sans-serif;
+  font-size:17px;line-height:1.6;-webkit-font-smoothing:antialiased;
+}
+h1,h2,h3,h4{font-family:Sora,Inter,sans-serif;letter-spacing:-.01em;margin:0}
+a{color:var(--accent)}
+a:hover{color:var(--accent-fonce)}
+img{max-width:100%;display:block}
+section{max-width:1120px;margin:0 auto;padding:56px 24px}
+.wrap{max-width:1120px;margin:0 auto;padding:0 24px}
+
+/* ── navigation ── */
+header.bar{position:sticky;top:0;z-index:30;background:rgba(245,248,252,.92);
+  backdrop-filter:blur(8px);border-bottom:1px solid var(--bord)}
+.bar nav{max-width:1120px;margin:0 auto;padding:14px 24px;display:flex;flex-wrap:wrap;
+  align-items:center;justify-content:space-between;gap:12px}
+.logo{display:flex;align-items:center;gap:10px;text-decoration:none;color:var(--encre)}
+.logo span{font-family:Sora,sans-serif;font-weight:700;font-size:18px}
+.menu{display:flex;flex-wrap:wrap;align-items:center;gap:4px}
+.menu a{padding:12px 14px;font-size:15px;font-weight:500;text-decoration:none;color:#2B4566;border-radius:10px}
+.menu a:hover{background:var(--pale);color:var(--accent-fonce)}
+.menu a.on{color:var(--accent);background:var(--pale)}
+
+/* ── titres ── */
+.eyebrow{font-family:Sora,sans-serif;font-size:14px;font-weight:600;color:var(--accent);
+  letter-spacing:.08em;display:block;margin-bottom:6px}
+h2.t{font-size:32px;font-weight:600;margin:0 0 8px}
+h3.st{font-size:20px;font-weight:600;margin:32px 0 14px}
+p.sub{margin:0 0 28px;color:var(--texte);font-size:17px;max-width:62ch}
+
+/* ── boutons ── */
+.btns{display:flex;flex-wrap:wrap;gap:12px}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:48px;
+  padding:0 22px;border-radius:12px;font-weight:600;text-decoration:none;font-size:16px;
+  font-family:inherit;border:0;cursor:pointer}
+.btn-plein{background:var(--accent);color:#fff}
+.btn-plein:hover{background:var(--accent-fonce);color:#fff}
+.btn-vide{border:1.5px solid #B9CCE6;color:var(--encre);background:none}
+.btn-vide:hover{background:var(--pale);color:var(--encre)}
+.btn-petit{min-height:38px;padding:0 14px;font-size:14px;border-radius:9px}
+.btn[disabled]{opacity:.55;cursor:not-allowed}
+
+/* ── cartes ── */
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:16px}
+.card{background:var(--blanc);border:1px solid var(--bord);border-radius:18px;padding:24px}
+.card h3{font-size:18px;font-weight:600;margin:0 0 8px}
+.card p{margin:0;font-size:15px;line-height:1.6;color:var(--texte)}
+.card .lab{font-size:13px;font-weight:600;color:var(--label);text-transform:uppercase;letter-spacing:.06em}
+.card .val{font-family:Sora,sans-serif;font-size:24px;font-weight:600;margin:8px 0 2px}
+.chips{display:flex;flex-wrap:wrap;gap:10px}
+.chip{padding:8px 14px;border-radius:999px;background:var(--blanc);border:1px solid var(--bord);font-size:15px}
+
+/* ── listes clé / valeur ── */
+.kv{margin:0;background:var(--blanc);border:1px solid var(--bord);border-radius:18px;overflow:hidden}
+.kv>div{display:grid;grid-template-columns:200px 1fr;gap:24px;padding:18px 24px;border-bottom:1px solid var(--bord)}
+.kv>div:last-child{border-bottom:0}
+.kv dt{font-size:13px;font-weight:600;color:var(--label);text-transform:uppercase;letter-spacing:.06em;padding-top:3px}
+.kv dd{margin:0;font-size:16px}
+
+/* ── blocs ── */
+.bloc-sombre{background:var(--encre);color:#fff;border-radius:24px;padding:32px}
+.bloc-pale{background:var(--pale);border-radius:24px;padding:32px}
+.bloc-accent{background:var(--accent);color:#fff;border-radius:28px;padding:40px}
+.duo{display:flex;flex-wrap:wrap;gap:16px}
+.duo>*{flex:1 1 400px;min-width:0}
+
+/* ── formulaires ── */
+.form{display:grid;gap:16px}
+.ligne{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:16px}
+.champ{display:flex;flex-direction:column;gap:6px}
+.champ label{font-size:13px;font-weight:600;color:var(--label);text-transform:uppercase;letter-spacing:.06em}
+.champ input,.champ select,.champ textarea{
+  font:inherit;font-size:16px;color:var(--encre);background:var(--blanc);
+  border:1.5px solid var(--bord);border-radius:12px;padding:12px 14px;min-height:48px;width:100%}
+.champ textarea{min-height:120px;resize:vertical}
+.champ input:focus,.champ select:focus,.champ textarea:focus{
+  outline:none;border-color:var(--accent);box-shadow:0 0 0 3px rgba(31,95,175,.15)}
+.champ .aide{font-size:13px;color:var(--label);text-transform:none;letter-spacing:0;font-weight:400}
+.pot{position:absolute;left:-9999px}
+
+/* ── messages ── */
+.msg{border-radius:14px;padding:14px 18px;font-size:15px;display:none}
+.msg.on{display:block}
+.msg-ok{background:var(--vert-pale);color:var(--vert)}
+.msg-ko{background:var(--rouge-pale);color:var(--rouge)}
+.msg-info{background:var(--pale);color:var(--accent-fonce)}
+
+/* ── badges de statut ── */
+.badge{display:inline-flex;align-items:center;gap:6px;padding:4px 11px;border-radius:999px;
+  font-size:13px;font-weight:600;white-space:nowrap}
+.b-confirme{background:var(--vert-pale);color:var(--vert)}
+.b-option{background:var(--ambre-pale);color:var(--ambre)}
+.b-demande{background:var(--pale);color:var(--accent-fonce)}
+.b-bloque{background:#E9ECF1;color:#4A6283}
+
+/* ── calendrier ── */
+.cal-tete{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:18px}
+.cal-nav{display:flex;gap:8px}
+.cal-nav button{width:40px;height:40px;border-radius:10px;border:1.5px solid var(--bord);
+  background:var(--blanc);color:var(--encre);font-size:18px;cursor:pointer;line-height:1}
+.cal-nav button:hover{border-color:#B9CCE6;background:var(--pale)}
+.cal-mois{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:24px}
+.mois h4{font-size:17px;font-weight:600;text-align:center;margin:0 0 12px;text-transform:capitalize}
+.sem,.jours{display:grid;grid-template-columns:repeat(7,1fr);gap:4px}
+.sem span{text-align:center;font-size:12px;font-weight:600;color:var(--label);padding-bottom:6px}
+.jour{aspect-ratio:1;display:flex;align-items:center;justify-content:center;border-radius:10px;
+  font-size:14px;background:var(--blanc);border:1px solid var(--bord);color:var(--encre)}
+.jour.vide{background:none;border:0}
+.jour.passe{color:#A8B4C4;background:#FAFBFD}
+.jour.pris{background:var(--pale2);border-color:var(--pale2);color:#2B4566;text-decoration:line-through}
+.jour.confirme{background:var(--vert-pale);border-color:#BFE3D5;color:var(--vert)}
+.jour.option{background:var(--ambre-pale);border-color:#F0DFAE;color:var(--ambre)}
+.jour.demande{background:var(--pale);border-color:#C3D8EC;color:var(--accent-fonce)}
+.jour.bloque{background:#E9ECF1;border-color:#DADFE7;color:#4A6283}
+.jour.cliquable{cursor:pointer}
+.jour.cliquable:hover{border-color:var(--accent)}
+.legende{display:flex;flex-wrap:wrap;gap:16px;margin-top:20px;font-size:14px;color:var(--texte)}
+.legende span{display:inline-flex;align-items:center;gap:7px}
+.legende i{width:14px;height:14px;border-radius:5px;display:inline-block;border:1px solid var(--bord)}
+
+/* ── tableau ── */
+.tableau{width:100%;border-collapse:collapse;background:var(--blanc);font-size:15px}
+.tableau th{text-align:left;font-size:12px;font-weight:600;color:var(--label);
+  text-transform:uppercase;letter-spacing:.06em;padding:14px 16px;border-bottom:1px solid var(--bord)}
+.tableau td{padding:14px 16px;border-bottom:1px solid var(--bord);vertical-align:top}
+.tableau tr:last-child td{border-bottom:0}
+.tableau .actions{display:flex;gap:8px;flex-wrap:wrap}
+.table-box{background:var(--blanc);border:1px solid var(--bord);border-radius:18px;overflow:auto}
+.vide-msg{padding:32px;text-align:center;color:var(--texte);font-size:15px}
+
+/* ── pied de page ── */
+footer.pied{background:var(--encre);color:#9FBDE4;padding:48px 0;margin-top:24px}
+footer.pied .wrap{display:flex;flex-wrap:wrap;gap:24px;justify-content:space-between;align-items:center}
+footer.pied a{color:#8FC2E6}
+footer.pied .nom{font-family:Sora,sans-serif;font-size:18px;font-weight:600;color:#fff}
+
+/* ── responsive ── */
+@media (max-width:720px){
+  .kv>div{grid-template-columns:1fr;gap:6px;padding:16px 20px}
+  .bloc-sombre,.bloc-pale{padding:24px}
+  .bloc-accent{padding:26px}
+  section{padding:40px 18px}
+  .wrap{padding:0 18px}
+  body{font-size:16px}
+}

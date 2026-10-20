@@ -1,0 +1,481 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Espace propriétaire — La Maison Bleue</title>
+<meta name="robots" content="noindex, nofollow">
+<meta name="theme-color" content="#0F2747">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/style.css">
+<style>
+/* ── propre à l'espace propriétaire ── */
+.connexion{max-width:420px;margin:64px auto;padding:0 24px}
+.connexion .card{padding:32px}
+.connexion h1{font-size:26px;font-weight:600;margin-bottom:6px}
+.connexion p.sous{margin:0 0 24px;color:var(--texte);font-size:15px}
+.barre-admin{background:var(--encre);color:#fff;position:sticky;top:0;z-index:30}
+.barre-admin .wrap{display:flex;flex-wrap:wrap;gap:14px;align-items:center;justify-content:space-between;padding-top:14px;padding-bottom:14px}
+.barre-admin .nom{font-family:Sora,sans-serif;font-weight:700;font-size:17px;display:flex;align-items:center;gap:10px}
+.barre-admin .qui{font-size:14px;color:#9FBDE4}
+.onglets{display:flex;flex-wrap:wrap;gap:6px;border-bottom:1px solid var(--bord);margin-bottom:28px}
+.onglet{font:inherit;font-size:15px;font-weight:500;color:#2B4566;background:none;border:0;
+  border-bottom:2px solid transparent;padding:12px 16px;cursor:pointer}
+.onglet:hover{color:var(--accent-fonce)}
+.onglet[aria-selected="true"]{color:var(--accent);border-bottom-color:var(--accent)}
+.vue{display:none}
+.vue.on{display:block}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:16px;margin-bottom:28px}
+.stat{background:var(--blanc);border:1px solid var(--bord);border-radius:18px;padding:20px}
+.stat b{display:block;font-family:Sora,sans-serif;font-size:28px;font-weight:700;color:var(--accent);line-height:1.2}
+.stat span{font-size:13px;color:var(--label);text-transform:uppercase;letter-spacing:.06em;font-weight:600}
+.demande{background:var(--blanc);border:1px solid var(--bord);border-radius:18px;padding:22px;margin-bottom:12px}
+.demande .haut{display:flex;flex-wrap:wrap;gap:12px;justify-content:space-between;align-items:flex-start}
+.demande h3{font-size:18px;font-weight:600;margin:0}
+.demande .meta{font-size:14px;color:var(--texte);margin:8px 0 0}
+.demande .mot{background:var(--fond);border-radius:12px;padding:14px;margin-top:12px;font-size:15px;color:var(--texte)}
+.pastille{display:inline-flex;align-items:center;justify-content:center;min-width:22px;height:22px;
+  padding:0 7px;border-radius:999px;background:var(--accent);color:#fff;font-size:12px;font-weight:600;margin-left:6px}
+dialog.fiche{border:0;border-radius:20px;padding:0;max-width:560px;width:92vw;background:var(--fond)}
+dialog.fiche::backdrop{background:rgba(15,39,71,.6)}
+dialog.fiche .dedans{padding:28px}
+dialog.fiche h3{font-size:21px;font-weight:600;margin:0 0 18px}
+</style>
+</head>
+<body>
+
+<!-- ══════════ ÉCRAN DE CONNEXION ══════════ -->
+<div id="ecran-connexion" class="connexion">
+  <div class="card">
+    <h1>Espace propriétaire</h1>
+    <p class="sous">La Maison Bleue — réservé à Katia et Philippe.</p>
+    <form class="form" id="form-connexion" novalidate>
+      <div class="champ"><label for="l-email">E-mail</label>
+        <input id="l-email" type="email" autocomplete="username" required></div>
+      <div class="champ"><label for="l-mdp">Mot de passe</label>
+        <input id="l-mdp" type="password" autocomplete="current-password" required></div>
+      <div class="msg" id="connexion-msg"></div>
+      <button class="btn btn-plein" type="submit" id="btn-connexion">Se connecter</button>
+      <button class="btn btn-vide btn-petit" type="button" id="btn-oubli">Mot de passe oublié</button>
+    </form>
+  </div>
+  <p style="text-align:center;margin-top:20px;font-size:15px"><a href="index.html">← Retour au site</a></p>
+</div>
+
+<!-- ══════════ TABLEAU DE BORD ══════════ -->
+<div id="ecran-admin" style="display:none">
+  <header class="barre-admin">
+    <div class="wrap">
+      <div class="nom">
+        <svg width="24" height="24" viewBox="0 0 28 28" fill="none" aria-hidden="true"><path d="M4 13 14 4l10 9v11H4z" stroke="#8FC2E6" stroke-width="2" stroke-linejoin="round"/><path d="M11 24v-6h6v6" stroke="#8FC2E6" stroke-width="2" stroke-linejoin="round"/></svg>
+        La Maison Bleue
+      </div>
+      <div style="display:flex;align-items:center;gap:14px;flex-wrap:wrap">
+        <span class="qui" id="qui"></span>
+        <a class="btn btn-petit" style="background:rgba(255,255,255,.14);color:#fff" href="index.html">Voir le site</a>
+        <button class="btn btn-petit" style="background:#fff;color:#0F2747" type="button" id="btn-sortir">Déconnexion</button>
+      </div>
+    </div>
+  </header>
+
+  <section style="padding-top:32px">
+    <div class="stats">
+      <div class="stat"><b id="s-nuits">—</b><span>nuits réservées</span></div>
+      <div class="stat"><b id="s-taux">—</b><span>taux d'occupation</span></div>
+      <div class="stat"><b id="s-revenus">—</b><span>revenus de l'année</span></div>
+      <div class="stat"><b id="s-prochain">—</b><span>prochaine arrivée</span></div>
+    </div>
+
+    <div class="onglets" role="tablist">
+      <button class="onglet" role="tab" aria-selected="true"  data-vue="v-demandes">Demandes <span class="pastille" id="nb-demandes" style="display:none">0</span></button>
+      <button class="onglet" role="tab" aria-selected="false" data-vue="v-calendrier">Calendrier</button>
+      <button class="onglet" role="tab" aria-selected="false" data-vue="v-sejours">Séjours</button>
+      <button class="onglet" role="tab" aria-selected="false" data-vue="v-nouveau">Ajouter un séjour</button>
+    </div>
+
+    <div class="msg" id="admin-msg" style="margin-bottom:20px"></div>
+
+    <!-- Demandes -->
+    <div class="vue on" id="v-demandes">
+      <div id="liste-demandes"></div>
+    </div>
+
+    <!-- Calendrier -->
+    <div class="vue" id="v-calendrier">
+      <div class="card">
+        <div class="cal-tete">
+          <strong id="a-cal-titre" style="font-family:Sora,sans-serif;font-size:17px">Calendrier</strong>
+          <div class="cal-nav">
+            <button type="button" id="a-prec" aria-label="Mois précédents">‹</button>
+            <button type="button" id="a-suiv" aria-label="Mois suivants">›</button>
+          </div>
+        </div>
+        <div class="cal-mois" id="a-calendrier"></div>
+        <div class="legende">
+          <span><i style="background:#DFF1E9;border-color:#BFE3D5"></i> Confirmé</span>
+          <span><i style="background:#FDF3D7;border-color:#F0DFAE"></i> Option</span>
+          <span><i style="background:#DCE8F7;border-color:#C3D8EC"></i> Demande</span>
+          <span><i style="background:#E9ECF1;border-color:#DADFE7"></i> Bloqué</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Séjours -->
+    <div class="vue" id="v-sejours">
+      <div class="table-box">
+        <table class="tableau">
+          <thead><tr><th>Dates</th><th>Voyageur</th><th>Nuits</th><th>Montant</th><th>Statut</th><th></th></tr></thead>
+          <tbody id="corps-sejours"></tbody>
+        </table>
+        <div class="vide-msg" id="sejours-vide" style="display:none">Aucun séjour enregistré pour le moment.</div>
+      </div>
+    </div>
+
+    <!-- Nouveau séjour -->
+    <div class="vue" id="v-nouveau">
+      <div class="card" style="max-width:720px">
+        <form class="form" id="form-sejour" novalidate>
+          <input type="hidden" id="n-id">
+          <div class="ligne">
+            <div class="champ"><label for="n-arrivee">Arrivée</label><input id="n-arrivee" type="date" required></div>
+            <div class="champ"><label for="n-depart">Départ</label><input id="n-depart" type="date" required></div>
+          </div>
+          <div class="ligne">
+            <div class="champ"><label for="n-nom">Voyageur</label><input id="n-nom" placeholder="Nom, ou « blocage perso »"></div>
+            <div class="champ"><label for="n-voyageurs">Voyageurs</label><input id="n-voyageurs" type="number" min="1" max="4" value="4"></div>
+          </div>
+          <div class="ligne">
+            <div class="champ"><label for="n-email">E-mail</label><input id="n-email" type="email"></div>
+            <div class="champ"><label for="n-tel">Téléphone</label><input id="n-tel" type="tel"></div>
+          </div>
+          <div class="ligne">
+            <div class="champ"><label for="n-montant">Montant (€)</label><input id="n-montant" type="number" min="0" step="1"></div>
+            <div class="champ"><label for="n-statut">Statut</label>
+              <select id="n-statut">
+                <option value="confirme">Confirmé</option>
+                <option value="option">Option</option>
+                <option value="demande">Demande</option>
+                <option value="bloque">Bloqué (perso)</option>
+              </select></div>
+            <div class="champ"><label for="n-source">Origine</label>
+              <select id="n-source">
+                <option value="direct">Direct</option>
+                <option value="site">Site</option>
+                <option value="airbnb">Airbnb</option>
+                <option value="booking">Booking</option>
+                <option value="gites-de-france">Gîtes de France</option>
+                <option value="autre">Autre</option>
+              </select></div>
+          </div>
+          <div class="champ"><label for="n-notes">Notes</label><textarea id="n-notes" style="min-height:90px"></textarea></div>
+          <div class="msg" id="sejour-msg"></div>
+          <div class="btns">
+            <button class="btn btn-plein" type="submit" id="btn-sejour">Enregistrer</button>
+            <button class="btn btn-vide" type="button" id="btn-annuler" style="display:none">Annuler la modification</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <footer class="pied">
+    <div class="wrap">
+      <div><div class="nom">Espace propriétaire</div>
+        <p style="margin:6px 0 0;font-size:15px">Les données sont stockées dans votre base Supabase.</p></div>
+      <div style="font-size:15px"><a href="index.html">Le site</a> &nbsp;·&nbsp; <a href="livret.html">Le livret</a></div>
+    </div>
+  </footer>
+</div>
+
+<dialog class="fiche" id="fiche">
+  <div class="dedans">
+    <h3 id="fiche-titre">Séjour</h3>
+    <div id="fiche-corps"></div>
+    <div class="btns" style="margin-top:22px">
+      <button class="btn btn-vide btn-petit" type="button" id="fiche-fermer">Fermer</button>
+    </div>
+  </div>
+</dialog>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"></script>
+<script src="assets/config.js"></script>
+<script>
+(function(){
+  "use strict";
+  var db = MB.client();
+  var cMsg = document.getElementById('connexion-msg'),
+      aMsg = document.getElementById('admin-msg');
+  var sejours = [];
+
+  if (!db) {
+    MB.dire(cMsg, MB.nonConfigure()
+      ? "Supabase n'est pas configuré. Remplissez assets/config.js puis exécutez supabase/schema.sql (voir le README)."
+      : "La connexion à Supabase est indisponible.", 'ko');
+    document.getElementById('btn-connexion').disabled = true;
+    return;
+  }
+
+  /* ─────────── connexion ─────────── */
+  var fc = document.getElementById('form-connexion');
+  fc.addEventListener('submit', function(e){
+    e.preventDefault();
+    var b = document.getElementById('btn-connexion');
+    b.disabled = true; MB.dire(cMsg, 'Connexion…', 'info');
+    db.auth.signInWithPassword({
+      email: document.getElementById('l-email').value.trim(),
+      password: document.getElementById('l-mdp').value
+    }).then(function(r){
+      b.disabled = false;
+      if (r.error) return MB.dire(cMsg, 'E-mail ou mot de passe incorrect.', 'ko');
+      MB.taire(cMsg); ouvrir(r.data.user);
+    });
+  });
+
+  document.getElementById('btn-oubli').addEventListener('click', function(){
+    var mail = document.getElementById('l-email').value.trim();
+    if (!mail) return MB.dire(cMsg, "Saisissez d'abord votre e-mail.", 'ko');
+    db.auth.resetPasswordForEmail(mail, {redirectTo: location.href}).then(function(){
+      MB.dire(cMsg, 'Un lien de réinitialisation vient de vous être envoyé.', 'ok');
+    });
+  });
+
+  document.getElementById('btn-sortir').addEventListener('click', function(){
+    db.auth.signOut().then(function(){ location.reload(); });
+  });
+
+  db.auth.getSession().then(function(r){
+    if (r.data && r.data.session) ouvrir(r.data.session.user);
+  });
+
+  function ouvrir(user){
+    document.getElementById('ecran-connexion').style.display = 'none';
+    document.getElementById('ecran-admin').style.display = 'block';
+    document.getElementById('qui').textContent = user.email;
+    charger();
+  }
+
+  /* ─────────── onglets ─────────── */
+  document.querySelectorAll('.onglet').forEach(function(o){
+    o.addEventListener('click', function(){
+      document.querySelectorAll('.onglet').forEach(function(x){ x.setAttribute('aria-selected','false'); });
+      document.querySelectorAll('.vue').forEach(function(v){ v.classList.remove('on'); });
+      o.setAttribute('aria-selected','true');
+      document.getElementById(o.dataset.vue).classList.add('on');
+    });
+  });
+
+  /* ─────────── chargement ─────────── */
+  function charger(){
+    db.from('reservations').select('*').order('date_arrivee', {ascending:true}).then(function(r){
+      if (r.error) return MB.dire(aMsg, 'Chargement impossible : ' + r.error.message, 'ko');
+      MB.taire(aMsg);
+      sejours = r.data || [];
+      stats(); demandes(); tableau(); peindre();
+    });
+  }
+
+  /* ─────────── statistiques ─────────── */
+  function stats(){
+    var an = new Date().getFullYear(), nuits = 0, revenus = 0, prochain = null, auj = MB.iso(new Date());
+    sejours.forEach(function(s){
+      if (s.statut === 'demande') return;
+      if (new Date(s.date_arrivee).getFullYear() === an) {
+        if (s.statut !== 'bloque') { nuits += MB.nuits(s.date_arrivee, s.date_depart); revenus += Number(s.montant || 0); }
+      }
+      if (s.date_arrivee >= auj && s.statut !== 'bloque' && (!prochain || s.date_arrivee < prochain)) prochain = s.date_arrivee;
+    });
+    document.getElementById('s-nuits').textContent = nuits;
+    document.getElementById('s-taux').textContent = Math.round(nuits / 365 * 100) + ' %';
+    document.getElementById('s-revenus').textContent = revenus.toLocaleString('fr-FR') + ' €';
+    document.getElementById('s-prochain').textContent = prochain ? MB.dateCourte(prochain) : '—';
+  }
+
+  /* ─────────── demandes ─────────── */
+  function demandes(){
+    var hote = document.getElementById('liste-demandes');
+    var liste = sejours.filter(function(s){ return s.statut === 'demande'; });
+    var p = document.getElementById('nb-demandes');
+    p.style.display = liste.length ? 'inline-flex' : 'none';
+    p.textContent = liste.length;
+    if (!liste.length) {
+      hote.innerHTML = '<div class="card"><p style="margin:0">Aucune demande en attente. Les demandes envoyées depuis le site arrivent ici.</p></div>';
+      return;
+    }
+    hote.innerHTML = liste.map(function(s){
+      return '<div class="demande" data-id="'+s.id+'">'+
+        '<div class="haut"><div><h3>'+esc(s.nom || 'Sans nom')+'</h3>'+
+        '<p class="meta">'+MB.dateFr(s.date_arrivee)+' → '+MB.dateFr(s.date_depart)+
+        ' · '+MB.nuits(s.date_arrivee, s.date_depart)+' nuits · '+(s.voyageurs || '?')+' voyageurs</p>'+
+        '<p class="meta">'+esc(s.email || '')+(s.telephone ? ' · '+esc(s.telephone) : '')+'</p></div>'+
+        '<span class="badge b-demande">Demande</span></div>'+
+        (s.message ? '<div class="mot">'+esc(s.message)+'</div>' : '')+
+        '<div class="btns" style="margin-top:16px">'+
+          '<button class="btn btn-plein btn-petit" data-act="confirme">Confirmer</button>'+
+          '<button class="btn btn-vide btn-petit" data-act="option">Mettre en option</button>'+
+          '<button class="btn btn-vide btn-petit" data-act="supprimer">Refuser</button>'+
+          (s.email ? '<a class="btn btn-vide btn-petit" href="mailto:'+esc(s.email)+'?subject='+encodeURIComponent('Votre séjour à La Maison Bleue')+'">Répondre</a>' : '')+
+        '</div></div>';
+    }).join('');
+
+    hote.querySelectorAll('[data-act]').forEach(function(b){
+      b.addEventListener('click', function(){
+        var id = b.closest('.demande').dataset.id, act = b.dataset.act;
+        if (act === 'supprimer') {
+          if (!confirm('Refuser et supprimer cette demande ?')) return;
+          db.from('reservations').delete().eq('id', id).then(fin);
+        } else {
+          db.from('reservations').update({statut: act}).eq('id', id).then(fin);
+        }
+      });
+    });
+    function fin(r){
+      if (r.error) return MB.dire(aMsg, 'Action impossible : ' + r.error.message, 'ko');
+      charger();
+    }
+  }
+
+  /* ─────────── tableau des séjours ─────────── */
+  var NOM = {confirme:'Confirmé', option:'Option', demande:'Demande', bloque:'Bloqué'};
+  function tableau(){
+    var corps = document.getElementById('corps-sejours');
+    var liste = sejours.filter(function(s){ return s.statut !== 'demande'; });
+    document.getElementById('sejours-vide').style.display = liste.length ? 'none' : 'block';
+    corps.innerHTML = liste.map(function(s){
+      return '<tr data-id="'+s.id+'">'+
+        '<td><strong>'+MB.dateCourte(s.date_arrivee)+'</strong> → '+MB.dateCourte(s.date_depart)+'</td>'+
+        '<td>'+esc(s.nom || '—')+(s.source ? '<br><small style="color:#4A6283">'+esc(s.source)+'</small>' : '')+'</td>'+
+        '<td>'+MB.nuits(s.date_arrivee, s.date_depart)+'</td>'+
+        '<td>'+(s.montant ? Number(s.montant).toLocaleString('fr-FR')+' €' : '—')+'</td>'+
+        '<td><span class="badge b-'+s.statut+'">'+NOM[s.statut]+'</span></td>'+
+        '<td><div class="actions">'+
+          '<button class="btn btn-vide btn-petit" data-mod="1">Modifier</button>'+
+          '<button class="btn btn-vide btn-petit" data-sup="1">Supprimer</button>'+
+        '</div></td></tr>';
+    }).join('');
+
+    corps.querySelectorAll('[data-mod]').forEach(function(b){
+      b.addEventListener('click', function(){ editer(b.closest('tr').dataset.id); });
+    });
+    corps.querySelectorAll('[data-sup]').forEach(function(b){
+      b.addEventListener('click', function(){
+        if (!confirm('Supprimer ce séjour ?')) return;
+        db.from('reservations').delete().eq('id', b.closest('tr').dataset.id).then(function(r){
+          if (r.error) return MB.dire(aMsg, 'Suppression impossible.', 'ko');
+          charger();
+        });
+      });
+    });
+  }
+
+  /* ─────────── calendrier ─────────── */
+  var JOURS = ['L','M','M','J','V','S','D'];
+  var debut = new Date(); debut.setDate(1);
+  function peindre(){
+    var hote = document.getElementById('a-calendrier');
+    if (!hote) return;
+    var par = {};
+    sejours.forEach(function(s){
+      var d = new Date(s.date_arrivee + 'T12:00:00'), f = new Date(s.date_depart + 'T12:00:00');
+      while (d < f) { par[MB.iso(d)] = s; d.setDate(d.getDate() + 1); }
+    });
+    hote.innerHTML = '';
+    for (var k = 0; k < 2; k++) {
+      var m = new Date(debut.getFullYear(), debut.getMonth() + k, 1);
+      var bloc = document.createElement('div'); bloc.className = 'mois';
+      var html = '<h4>'+m.toLocaleDateString('fr-FR', {month:'long', year:'numeric'})+'</h4>'+
+        '<div class="sem">'+JOURS.map(function(j){return '<span>'+j+'</span>';}).join('')+'</div><div class="jours">';
+      var premier = (new Date(m.getFullYear(), m.getMonth(), 1).getDay() + 6) % 7;
+      for (var v = 0; v < premier; v++) html += '<div class="jour vide"></div>';
+      var nb = new Date(m.getFullYear(), m.getMonth() + 1, 0).getDate();
+      for (var d2 = 1; d2 <= nb; d2++) {
+        var iso = MB.iso(new Date(m.getFullYear(), m.getMonth(), d2)), s = par[iso];
+        html += '<div class="jour'+(s ? ' '+s.statut+' cliquable" data-id="'+s.id+'" title="'+esc(s.nom || NOM[s.statut])+'"' : '"')+'>'+d2+'</div>';
+      }
+      bloc.innerHTML = html + '</div>';
+      hote.appendChild(bloc);
+    }
+    hote.querySelectorAll('[data-id]').forEach(function(j){
+      j.addEventListener('click', function(){ voir(j.dataset.id); });
+    });
+  }
+  document.getElementById('a-prec').addEventListener('click', function(){ debut.setMonth(debut.getMonth()-1); peindre(); });
+  document.getElementById('a-suiv').addEventListener('click', function(){ debut.setMonth(debut.getMonth()+1); peindre(); });
+
+  /* ─────────── fiche d'un séjour ─────────── */
+  function voir(id){
+    var s = sejours.find(function(x){ return String(x.id) === String(id); });
+    if (!s) return;
+    document.getElementById('fiche-titre').textContent = s.nom || NOM[s.statut];
+    document.getElementById('fiche-corps').innerHTML =
+      '<dl class="kv">'+
+      ligne('Dates', MB.dateFr(s.date_arrivee)+' → '+MB.dateFr(s.date_depart))+
+      ligne('Nuits', MB.nuits(s.date_arrivee, s.date_depart))+
+      ligne('Statut', '<span class="badge b-'+s.statut+'">'+NOM[s.statut]+'</span>')+
+      (s.voyageurs ? ligne('Voyageurs', s.voyageurs) : '')+
+      (s.email ? ligne('E-mail', '<a href="mailto:'+esc(s.email)+'">'+esc(s.email)+'</a>') : '')+
+      (s.telephone ? ligne('Téléphone', esc(s.telephone)) : '')+
+      (s.montant ? ligne('Montant', Number(s.montant).toLocaleString('fr-FR')+' €') : '')+
+      (s.source ? ligne('Origine', esc(s.source)) : '')+
+      (s.message ? ligne('Message', esc(s.message)) : '')+
+      (s.notes ? ligne('Notes', esc(s.notes)) : '')+
+      '</dl>';
+    document.getElementById('fiche').showModal();
+  }
+  function ligne(k, v){ return '<div><dt>'+k+'</dt><dd>'+v+'</dd></div>'; }
+  document.getElementById('fiche-fermer').addEventListener('click', function(){ document.getElementById('fiche').close(); });
+
+  /* ─────────── ajout / modification ─────────── */
+  var fs = document.getElementById('form-sejour'), sMsg = document.getElementById('sejour-msg'),
+      annuler = document.getElementById('btn-annuler');
+
+  function editer(id){
+    var s = sejours.find(function(x){ return String(x.id) === String(id); });
+    if (!s) return;
+    val('n-id', s.id); val('n-arrivee', s.date_arrivee); val('n-depart', s.date_depart);
+    val('n-nom', s.nom || ''); val('n-voyageurs', s.voyageurs || ''); val('n-email', s.email || '');
+    val('n-tel', s.telephone || ''); val('n-montant', s.montant || ''); val('n-statut', s.statut);
+    val('n-source', s.source || 'direct'); val('n-notes', s.notes || '');
+    annuler.style.display = 'inline-flex';
+    document.getElementById('btn-sejour').textContent = 'Enregistrer les modifications';
+    document.querySelector('[data-vue="v-nouveau"]').click();
+    window.scrollTo({top:0, behavior:'smooth'});
+  }
+  function vider(){
+    fs.reset(); val('n-id', ''); annuler.style.display = 'none';
+    document.getElementById('btn-sejour').textContent = 'Enregistrer'; MB.taire(sMsg);
+  }
+  annuler.addEventListener('click', vider);
+
+  fs.addEventListener('submit', function(e){
+    e.preventDefault();
+    var a = v('n-arrivee'), d = v('n-depart');
+    if (!a || !d) return MB.dire(sMsg, 'Les deux dates sont obligatoires.', 'ko');
+    if (d <= a) return MB.dire(sMsg, 'La date de départ doit être après la date d\'arrivée.', 'ko');
+    var ligne = {
+      date_arrivee:a, date_depart:d, nom:v('n-nom') || null, email:v('n-email') || null,
+      telephone:v('n-tel') || null, voyageurs:parseInt(v('n-voyageurs'),10) || null,
+      montant:v('n-montant') ? Number(v('n-montant')) : null,
+      statut:v('n-statut'), source:v('n-source'), notes:v('n-notes') || null
+    };
+    var id = v('n-id');
+    MB.dire(sMsg, 'Enregistrement…', 'info');
+    var req = id ? db.from('reservations').update(ligne).eq('id', id)
+                 : db.from('reservations').insert(ligne);
+    req.then(function(r){
+      if (r.error) return MB.dire(sMsg, 'Échec : ' + r.error.message, 'ko');
+      vider(); MB.dire(sMsg, id ? 'Séjour modifié.' : 'Séjour ajouté.', 'ok');
+      charger();
+    });
+  });
+
+  /* ─────────── petits outils ─────────── */
+  function v(id){ var e = document.getElementById(id); return e ? e.value.trim() : ''; }
+  function val(id, x){ var e = document.getElementById(id); if (e) e.value = x; }
+  function esc(s){ return String(s == null ? '' : s)
+    .replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+})();
+</script>
+</body>
+</html>
