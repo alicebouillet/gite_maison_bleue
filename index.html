@@ -1,0 +1,989 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>La Maison Bleue — Guide d'accueil</title>
+<meta name="description" content="Guide d'accueil du gîte La Maison Bleue — Saumur, vue sur la Loire.">
+<meta name="theme-color" content="#1F5FAF">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css">
+
+<!--
+  ═══════════════════════════════════════════════════════════════
+  LA MAISON BLEUE — GUIDE D'ACCUEIL
+  ═══════════════════════════════════════════════════════════════
+  POUR PERSONNALISER :
+  Tout ce qui est [entre crochets] est à remplacer par tes infos.
+  Fais Ctrl+F sur "[" pour les retrouver un par un.
+
+  À FAIRE EN PRIORITÉ
+  1. Téléphone, e-mail, code de la boîte à clés   → sections 01 et « Une question ? »
+  2. Wifi (le QR code se génère tout seul)        → section 03
+  3. La carte                                      → section « Plans »
+  4. Le plan du gîte (SVG)                         → section « Plans »
+  5. Les points à vérifier : centre antipoison, consignes de tri
+
+  METTRE EN LIGNE SUR GITHUB PAGES
+  - le fichier doit s'appeler index.html
+  - dépôt → Settings → Pages → Source : branche main, dossier /root
+  ═══════════════════════════════════════════════════════════════
+-->
+
+<style>
+:root{
+  --fond:#F5F8FC;
+  --encre:#0F2747;
+  --texte:#3A5273;
+  --label:#4A6283;
+  --bord:#DCE6F2;
+  --pale:#DCE8F7;
+  --pale2:#C7D9EF;
+  --bleu-clair:#7FA6D8;
+  --accent:#1F5FAF;
+  --accent-fonce:#123E7A;
+  --blanc:#FFFFFF;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:84px}
+body{
+  margin:0;background:var(--fond);color:var(--encre);
+  font-family:Inter,system-ui,-apple-system,"Segoe UI",sans-serif;
+  font-size:17px;line-height:1.6;-webkit-font-smoothing:antialiased;
+}
+h1,h2,h3{font-family:Sora,Inter,sans-serif;letter-spacing:-.01em;margin:0}
+a{color:var(--accent)}
+a:hover{color:var(--accent-fonce)}
+.wrap{max-width:1120px;margin:0 auto;padding:0 24px}
+section{max-width:1120px;margin:0 auto;padding:48px 24px}
+
+/* champs à compléter */
+.ph{background:var(--pale);color:var(--accent-fonce);border-radius:5px;padding:1px 6px;font-weight:500;
+  -webkit-box-decoration-break:clone;box-decoration-break:clone}
+.on-dark .ph,.on-accent .ph{background:rgba(255,255,255,.18);color:#fff}
+
+/* ── navigation ── */
+header.bar{position:sticky;top:0;z-index:20;background:rgba(245,248,252,.92);
+  backdrop-filter:blur(8px);border-bottom:1px solid var(--bord)}
+.bar nav{max-width:1120px;margin:0 auto;padding:14px 24px;display:flex;flex-wrap:wrap;
+  align-items:center;justify-content:space-between;gap:12px}
+.logo{display:flex;align-items:center;gap:10px;text-decoration:none;color:var(--encre)}
+.logo span{font-family:Sora,sans-serif;font-weight:700;font-size:18px}
+.menu{display:flex;flex-wrap:wrap;gap:4px}
+.menu a{padding:12px 14px;font-size:15px;font-weight:500;text-decoration:none;color:#2B4566;border-radius:10px}
+.menu a:hover{background:var(--pale);color:var(--accent-fonce)}
+.menu a.on{color:var(--accent);background:var(--pale)}
+
+/* ── hero ── */
+.hero{max-width:1120px;margin:0 auto;padding:64px 24px 48px;display:flex;flex-wrap:wrap;gap:48px;align-items:center}
+.hero-txt{flex:1 1 420px;min-width:0;display:flex;flex-direction:column;gap:20px}
+.pill{align-self:flex-start;padding:6px 12px;border-radius:999px;background:var(--pale);
+  color:var(--accent-fonce);font-size:14px;font-weight:600}
+.hero h1{font-weight:700;font-size:clamp(2.4rem,5vw,3.6rem);line-height:1.08}
+.hero h1 em{font-style:normal;color:var(--accent)}
+.hero p.lede{margin:0;font-size:18px;line-height:1.6;color:var(--texte);max-width:520px}
+.btns{display:flex;flex-wrap:wrap;gap:12px;margin-top:8px}
+.btn{display:inline-flex;align-items:center;min-height:48px;padding:0 22px;border-radius:12px;
+  font-weight:600;text-decoration:none;font-size:16px}
+.btn-plein{background:var(--accent);color:#fff}
+.btn-plein:hover{background:var(--accent-fonce);color:#fff}
+.btn-vide{border:1.5px solid #B9CCE6;color:var(--encre)}
+.btn-vide:hover{background:var(--pale);color:var(--encre)}
+.hero-img{flex:1 1 420px;min-width:0}
+.visuel{position:relative;aspect-ratio:4/3;border-radius:24px;overflow:hidden;background:var(--pale)}
+.visuel svg{display:block;width:100%;height:100%}
+.visuel .tag{position:absolute;left:16px;bottom:16px;padding:6px 12px;border-radius:8px;
+  background:rgba(255,255,255,.9);font-size:13px;color:#2B4566}
+
+/* ── titres de section ── */
+.eyebrow{font-family:Sora,sans-serif;font-size:14px;font-weight:600;color:var(--accent);
+  letter-spacing:.08em;display:block;margin-bottom:6px}
+h2.t{font-size:32px;font-weight:600;margin:0 0 8px}
+h3.st{font-size:20px;font-weight:600;margin:36px 0 16px}
+p.sub{margin:0 0 28px;color:var(--texte);font-size:17px}
+
+/* ── cartes ── */
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px}
+.card{background:var(--blanc);border:1px solid var(--bord);border-radius:18px;padding:24px}
+.card h3{font-size:18px;font-weight:600;margin:0 0 8px}
+.card p{margin:0;font-size:15px;line-height:1.6;color:var(--texte)}
+.card p+p{margin-top:8px}
+.card .lab{font-size:14px;font-weight:600;color:var(--label);text-transform:uppercase;letter-spacing:.06em}
+.card .val{font-family:Sora,sans-serif;font-size:22px;font-weight:600;margin:10px 0 4px}
+.card .stack{display:flex;flex-direction:column;gap:10px}
+.card ul{margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:9px;
+  font-size:15px;line-height:1.55;color:var(--texte)}
+.card ul li{display:flex;gap:10px;align-items:flex-start}
+.card ul li::before{content:"";flex:none;width:6px;height:6px;margin-top:8px;border-radius:50%;background:var(--bleu-clair)}
+.chips{display:flex;flex-wrap:wrap;gap:10px}
+.chip{padding:8px 14px;border-radius:999px;background:var(--blanc);border:1px solid var(--bord);font-size:15px}
+
+/* ── listes clé/valeur ── */
+.kv{margin:0;background:var(--blanc);border:1px solid var(--bord);border-radius:18px;overflow:hidden}
+.kv>div{display:grid;grid-template-columns:200px 1fr;gap:24px;padding:18px 24px;border-bottom:1px solid var(--bord)}
+.kv>div:last-child{border-bottom:0}
+.kv dt{font-size:13px;font-weight:600;color:var(--label);text-transform:uppercase;letter-spacing:.06em;padding-top:3px}
+.kv dd{margin:0;font-size:16px;color:var(--encre)}
+
+/* ── blocs pleins ── */
+.bloc-sombre{background:var(--encre);color:#fff;border-radius:24px;padding:32px}
+.bloc-pale{background:var(--pale);border-radius:24px;padding:32px;color:var(--encre)}
+.bloc-accent{background:var(--accent);color:#fff;border-radius:28px;padding:40px}
+.bloc-sombre h2,.bloc-pale h2,.bloc-accent h2{font-size:26px;font-weight:600;margin:0 0 20px}
+.duo{display:flex;flex-wrap:wrap;gap:16px}
+.duo>*{flex:1 1 400px;min-width:0}
+.puces{margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:14px;font-size:16px;line-height:1.5}
+.bloc-sombre .puces{color:#D6E2F2}
+.puces li{display:flex;gap:12px;align-items:flex-start}
+.dot{flex:none;width:8px;height:8px;margin-top:8px;border-radius:50%;background:var(--bleu-clair)}
+.puces b{color:#fff;font-weight:600}
+.bloc-pale .puces{color:#1E3A5F}
+.bloc-pale .puces b{color:var(--encre)}
+.bloc-pale .dot{background:var(--accent)}
+.apres{margin:18px 0 0;font-size:14px;line-height:1.55}
+.bloc-pale .apres{color:#2B4566}
+
+/* ── mot d'accueil ── */
+.mot{background:var(--blanc);border:1px solid var(--bord);border-radius:24px;padding:36px;
+  display:flex;flex-wrap:wrap;gap:32px;align-items:flex-start}
+.mot .txt{flex:1 1 440px;min-width:0}
+.mot p{margin:0 0 14px;font-size:17px;line-height:1.7;color:var(--texte)}
+.mot p:last-of-type{margin-bottom:0}
+.signe{font-family:Sora,sans-serif;font-size:19px;font-weight:600;color:var(--encre);margin-top:22px}
+.signe small{display:block;font-family:Inter,sans-serif;font-size:14px;font-weight:400;color:var(--label);margin-top:2px}
+
+/* ── wifi ── */
+.wifi{display:flex;flex-wrap:wrap;gap:32px;align-items:center;justify-content:space-between;
+  background:var(--encre);color:#fff;border-radius:24px;padding:32px}
+.wifi .bloc{flex:1 1 320px;min-width:0}
+.wifi .lab{font-size:13px;font-weight:600;text-transform:uppercase;letter-spacing:.06em;color:#9FBDE4;margin-bottom:6px}
+.wifi .val{font-family:"JetBrains Mono",ui-monospace,monospace;font-size:24px;word-break:break-all;line-height:1.4}
+.wifi .bloc-sep{margin-top:24px}
+.copy{background:none;border:1.5px solid rgba(255,255,255,.4);color:#D6E2F2;font:inherit;font-size:13px;
+  font-weight:500;padding:6px 14px;border-radius:999px;cursor:pointer;margin-left:10px;vertical-align:4px}
+.copy:hover{background:rgba(255,255,255,.14);color:#fff}
+#qrwrap{flex:0 0 auto;text-align:center}
+#qr{background:#fff;padding:14px;border-radius:16px;line-height:0;width:156px;height:156px}
+#qr img,#qr canvas{display:block;width:128px;height:128px}
+.qr-cap{font-size:13px;color:#9FBDE4;margin-top:10px}
+
+/* ── plans ── */
+.map{background:var(--blanc);border:1px solid var(--bord);border-radius:18px;overflow:hidden}
+.map iframe{display:block;width:100%;height:420px;border:0}
+.map .pied{display:flex;flex-wrap:wrap;gap:16px;justify-content:space-between;align-items:center;
+  padding:16px 20px;border-top:1px solid var(--bord);font-size:15px;color:var(--texte)}
+.plan{margin-top:16px;background:var(--blanc);border:1px solid var(--bord);border-radius:18px;padding:28px}
+.plan svg{width:100%;height:auto;max-width:640px;margin:0 auto;display:block}
+.plan .cap{font-size:14px;color:var(--texte);text-align:center;margin:16px 0 0}
+
+/* ── cartes visite ── */
+.visite{background:var(--blanc);border:1px solid var(--bord);border-radius:18px;overflow:hidden}
+.visite .img{height:140px}
+.visite .corps{padding:20px}
+.visite .cat{font-size:13px;font-weight:600;color:var(--label);text-transform:uppercase;letter-spacing:.06em}
+.visite h3{font-size:18px;font-weight:600;margin:6px 0}
+.visite p{margin:0;font-size:15px;color:var(--texte)}
+
+/* ── liens ── */
+.liens{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:12px}
+.lien{display:flex;align-items:center;justify-content:space-between;gap:16px;min-height:64px;
+  padding:16px 20px;background:var(--blanc);border:1px solid var(--bord);border-radius:14px;
+  text-decoration:none;color:var(--encre)}
+.lien:hover{border-color:#B9CCE6;color:var(--encre)}
+.lien b{display:block;font-weight:600}
+.lien small{display:block;font-size:14px;color:var(--label)}
+
+/* ── check-list ── */
+.check{margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:13px;font-size:16px}
+.check li{display:flex;gap:12px;align-items:flex-start;cursor:pointer;color:#1E3A5F}
+.check li .ok{flex:none;margin-top:2px}
+.check li .ok path{transition:.15s;opacity:.25}
+.check li.done .ok path{opacity:1}
+.check li.done span{text-decoration:line-through;opacity:.6}
+
+/* ── urgences ── */
+.urg{flex:0 1 340px;min-width:0;background:rgba(255,255,255,.12);border-radius:18px;padding:24px}
+.urg .lab{font-size:13px;font-weight:600;text-transform:uppercase;letter-spacing:.06em;color:#E4EEFA;margin-bottom:14px}
+.num3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;text-align:center}
+.num3 b{font-family:Sora,sans-serif;font-size:26px;font-weight:700;display:block}
+.num3 small{font-size:13px;color:#E4EEFA}
+.urg-liste{margin:16px 0 0;padding:0;list-style:none;font-size:15px;color:#E4EEFA}
+.urg-liste li{display:flex;justify-content:space-between;gap:14px;padding:7px 0;border-top:1px solid rgba(255,255,255,.18)}
+.urg-liste b{font-weight:600;color:#fff;white-space:nowrap;text-align:right}
+
+.fin{margin:32px 0 0;text-align:center;font-size:14px;color:var(--label)}
+
+/* ── cartes interactives ── */
+.carte-box{background:var(--blanc);border:1px solid var(--bord);border-radius:18px;overflow:hidden}
+.carte-outils{display:flex;flex-wrap:wrap;gap:8px;padding:16px 20px;border-bottom:1px solid var(--bord)}
+.filtre{padding:8px 14px;border-radius:999px;background:var(--blanc);border:1px solid var(--bord);
+  font:inherit;font-size:15px;color:var(--encre);cursor:pointer}
+.filtre:hover{border-color:#B9CCE6}
+.filtre[aria-pressed="true"]{background:var(--accent);border-color:var(--accent);color:#fff;font-weight:500}
+#carte{height:460px;width:100%;background:var(--pale)}
+#carte-dechets{height:300px;width:100%;background:var(--pale)}
+.carte-pied{display:flex;flex-wrap:wrap;gap:12px 20px;justify-content:space-between;align-items:center;
+  padding:14px 20px;border-top:1px solid var(--bord);font-size:14px;color:var(--texte)}
+.legende{display:flex;flex-wrap:wrap;gap:14px;align-items:center}
+.legende span{display:inline-flex;align-items:center;gap:7px}
+.legende i{width:11px;height:11px;border-radius:50%;display:inline-block}
+.pin{display:block;width:26px;height:34px}
+.leaflet-container{font-family:Inter,sans-serif;font-size:14px}
+.leaflet-popup-content-wrapper{border-radius:14px}
+.leaflet-popup-content{margin:14px 16px;line-height:1.5}
+.leaflet-popup-content b{font-family:Sora,sans-serif;font-size:16px;display:block;margin-bottom:4px;color:var(--encre)}
+.leaflet-popup-content small{color:var(--label);font-size:13.5px}
+.carte-ko{padding:28px 20px;text-align:center;color:var(--texte);font-size:15px}
+
+/* cartes visite cliquables */
+a.visite{display:block;text-decoration:none;color:inherit}
+a.visite:hover{border-color:#B9CCE6;color:inherit}
+a.visite:hover h3{color:var(--accent)}
+.visite .voir{display:inline-flex;align-items:center;gap:6px;margin-top:10px;
+  font-size:14px;font-weight:500;color:var(--accent)}
+
+/* ── responsive ── */
+@media (max-width:720px){
+  .kv>div{grid-template-columns:1fr;gap:6px;padding:16px 20px}
+  .bloc-sombre,.bloc-pale,.mot{padding:26px}
+  .bloc-accent{padding:28px}
+  .wifi{padding:26px}
+  #qrwrap{margin:0 auto}
+  section,.hero{padding-left:18px;padding-right:18px}
+  .wrap{padding:0 18px}
+  .hero{padding-top:40px;gap:32px}
+}
+
+/* ── impression ── */
+@media print{
+  .bar,.btns,.copy,.map iframe{display:none}
+  body{background:#fff;font-size:12pt}
+  .card,.kv,.visite,.map,.plan,.mot{border-color:#999;break-inside:avoid}
+  .bloc-sombre,.bloc-accent{background:#fff!important;color:#000!important;border:1px solid #999}
+  .bloc-sombre .puces{color:#000}
+  .wifi{background:#fff;border:1px solid #999;color:#000}
+  .wifi .lab,.qr-cap{color:#444}
+  section{padding:18px 0;break-inside:avoid}
+}
+</style>
+</head>
+<body>
+
+<!-- ══════════ NAVIGATION ══════════ -->
+<header class="bar">
+  <nav aria-label="Navigation principale">
+    <a class="logo" href="#accueil">
+      <svg width="28" height="28" viewBox="0 0 28 28" fill="none" aria-hidden="true"><path d="M4 13 14 4l10 9v11H4z" stroke="#1F5FAF" stroke-width="2" stroke-linejoin="round"/><path d="M11 24v-6h6v6" stroke="#1F5FAF" stroke-width="2" stroke-linejoin="round"/></svg>
+      <span>La Maison Bleue</span>
+    </a>
+    <div class="menu">
+      <a href="#essentiel">L'essentiel</a>
+      <a href="#arrivee">Arrivée</a>
+      <a href="#wifi">Wi-Fi</a>
+      <a href="#maison">Le gîte</a>
+      <a href="#regles">Règles</a>
+      <a href="#plans">Plans</a>
+      <a href="#environs">Autour</a>
+      <a href="#contact">Urgences</a>
+    </div>
+  </nav>
+</header>
+
+<!-- ══════════ HERO ══════════ -->
+<section id="accueil" class="hero">
+  <div class="hero-txt">
+    <span class="pill">Gîte · Saumur · Vue sur la Loire</span>
+    <h1>Bienvenue à<br><em>la Maison Bleue</em></h1>
+    <p class="lede">Tout ce qu'il faut pour profiter de votre séjour : infos pratiques, fonctionnement de la maison et nos bonnes adresses en bord de Loire.</p>
+    <div class="btns">
+      <a class="btn btn-plein" href="#arrivee">Infos d'arrivée</a>
+      <a class="btn btn-vide" href="#contact">Nous contacter</a>
+    </div>
+  </div>
+  <div class="hero-img">
+    <div class="visuel" role="img" aria-label="[Photo de la maison ou de la vue sur la Loire]">
+      <svg viewBox="0 0 480 360" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+        <rect width="480" height="360" fill="#E6EEF8"/>
+        <circle cx="380" cy="80" r="34" fill="#FFFFFF"/>
+        <path d="M0 220 Q120 180 240 205 T480 195 V360 H0Z" fill="#C7D9EF"/>
+        <path d="M150 210 L240 140 L330 210 V275 H150Z" fill="#1F5FAF"/>
+        <path d="M140 214 L240 132 L340 214" fill="none" stroke="#0F2747" stroke-width="6" stroke-linejoin="round"/>
+        <rect x="222" y="232" width="36" height="43" rx="3" fill="#FFFFFF"/>
+        <rect x="172" y="222" width="30" height="26" rx="3" fill="#FFFFFF"/>
+        <rect x="278" y="222" width="30" height="26" rx="3" fill="#FFFFFF"/>
+        <path d="M0 285 Q60 270 120 285 T240 285 T360 285 T480 285 V360 H0Z" fill="#7FA6D8"/>
+        <path d="M0 310 Q60 295 120 310 T240 310 T360 310 T480 310 V360 H0Z" fill="#4E83C4"/>
+      </svg>
+      <span class="tag">[Remplacer par une photo de la maison]</span>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════ LE MOT D'ACCUEIL ══════════ -->
+<section id="mot">
+  <h2 class="t">Le mot d'accueil</h2>
+  <p class="sub">Bonjour et bienvenue !</p>
+  <div class="mot">
+    <div class="txt">
+      <p>Nous sommes ravis de vous accueillir dans notre gîte avec vue sur la Loire. Ce livret rassemble tout ce qu'il faut savoir pour profiter pleinement de votre séjour : infos pratiques, fonctionnement des équipements et nos adresses préférées autour de Saumur.</p>
+      <p>Pour toute question pendant votre séjour, n'hésitez pas à nous contacter. Nous vous souhaitons un excellent séjour en Val de Loire !</p>
+      <div class="signe">Katia et Philippe<small>vos hôtes</small></div>
+    </div>
+    <div class="card" style="flex:0 1 300px">
+      <div class="lab">Adresse</div>
+      <div class="val" style="font-size:19px;line-height:1.35">4 rue du Tire Jarret<br>49400 Saumur</div>
+      <p>Capacité : 4 personnes maximum.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════ L'ESSENTIEL ══════════ -->
+<section id="essentiel">
+  <h2 class="t">L'essentiel</h2>
+  <p class="sub">À garder sous la main pendant votre séjour.</p>
+  <div class="grid">
+    <div class="card"><div class="stack">
+      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#1F5FAF" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>
+      <div class="lab">Arrivée / Départ</div>
+      <div><div class="val">À partir de <span class="ph">16h</span></div><p>Départ avant <span class="ph">10h</span></p></div>
+    </div></div>
+    <div class="card"><div class="stack">
+      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#1F5FAF" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="10" width="16" height="11" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg>
+      <div class="lab">Accès</div>
+      <div><div class="val">Boîte à clés</div><p><span class="ph">emplacement</span> · code communiqué avant l'arrivée</p></div>
+    </div></div>
+    <div class="card"><div class="stack">
+      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#1F5FAF" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 9a15 15 0 0 1 20 0"/><path d="M5 12.5a10 10 0 0 1 14 0"/><path d="M8.5 16a5 5 0 0 1 7 0"/><circle cx="12" cy="19.5" r=".8"/></svg>
+      <div class="lab">Wi-Fi</div>
+      <div><div class="val"><span class="ph">Nom du réseau</span></div><p>Mot de passe et QR code en section 03.</p></div>
+    </div></div>
+    <div class="card"><div class="stack">
+      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#1F5FAF" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="3" width="16" height="18" rx="3"/><path d="M9 16V8h4a2.5 2.5 0 0 1 0 5H9"/></svg>
+      <div class="lab">Stationnement</div>
+      <div><div class="val">Parking privatif</div><p><span class="ph">emplacement</span></p></div>
+    </div></div>
+  </div>
+
+  <h3 class="st">Infos essentielles</h3>
+  <dl class="kv">
+    <div><dt>Adresse</dt><dd>4 rue du Tire Jarret, 49400 Saumur</dd></div>
+    <div><dt>Vos hôtes</dt><dd>Katia et Philippe · <span class="ph">06 XX XX XX XX</span> · <span class="ph">email</span></dd></div>
+    <div><dt>Wifi</dt><dd>Réseau : <span class="ph">Nom du réseau</span> · Mot de passe : <span class="ph">Mot de passe</span></dd></div>
+    <div><dt>Arrivée</dt><dd>À partir de <span class="ph">16h</span></dd></div>
+    <div><dt>Départ</dt><dd>Avant <span class="ph">10h</span></dd></div>
+    <div><dt>Clés</dt><dd>Boîte à clés <span class="ph">emplacement</span> · code <span class="ph">communiqué avant l'arrivée</span></dd></div>
+    <div><dt>Parking</dt><dd>Parking privatif <span class="ph">emplacement</span></dd></div>
+    <div><dt>Capacité</dt><dd>4 personnes maximum</dd></div>
+  </dl>
+</section>
+
+<!-- ══════════ 01 · ARRIVÉE ══════════ -->
+<section id="arrivee">
+  <span class="eyebrow">01</span>
+  <h2 class="t">L'arrivée</h2>
+  <p class="sub">Dix lignes, pas plus : l'adresse, le code, les clés.</p>
+  <dl class="kv">
+    <div><dt>Adresse</dt><dd>4 rue du Tire Jarret, 49400 Saumur — <span class="ph">bâtiment / étage s'il y a lieu</span></dd></div>
+    <div><dt>Porte de l'immeuble</dt><dd>Code <span class="ph">0 — 0 — 0 — 0</span>, à composer chiffre par chiffre, puis pousser.</dd></div>
+    <div><dt>Porte du gîte</dt><dd>Boîte à clés <span class="ph">emplacement</span> — code <span class="ph">communiqué avant l'arrivée</span>.</dd></div>
+    <div><dt>Les clés</dt><dd><span class="ph">Nombre de jeux et ce qu'ils ouvrent</span>. Au départ, remettez-les dans la boîte à clés et refermez-la.</dd></div>
+    <div><dt>Arrivée tardive</dt><dd>Possible sans contrainte, l'accès est autonome. Prévenez-nous simplement par SMS.</dd></div>
+    <div><dt>Bon à savoir</dt><dd>Notre boîte à clés est installée sur notre propre mur. Airbnb rappelle sur son site français que les boîtes à clés ne peuvent pas être fixées sur du mobilier urbain, poteaux et arceaux à vélo compris : ici, aucun souci.</dd></div>
+  </dl>
+</section>
+
+<!-- ══════════ 02 · STATIONNEMENT ══════════ -->
+<section id="stationnement">
+  <span class="eyebrow">02</span>
+  <h2 class="t">Le stationnement</h2>
+  <p class="sub">La rue, la distance à pied, le tarif s'il y en a un.</p>
+  <div class="duo">
+    <dl class="kv" style="flex:2 1 460px">
+      <div><dt>Où se garer</dt><dd>Parking privatif — <span class="ph">emplacement, nombre de places</span></dd></div>
+      <div><dt>Distance</dt><dd><span class="ph">distance à pied</span></dd></div>
+      <div><dt>Tarif</dt><dd>Gratuit, inclus dans le séjour.</dd></div>
+      <div><dt>Si la place est prise</dt><dd><span class="ph">Solution de repli</span></dd></div>
+    </dl>
+    <div class="card" style="flex:1 1 280px">
+      <h3>La photo du portail</h3>
+      <p>Une photo de l'entrée vaut trois paragraphes. Déposez <strong>parking.jpg</strong> à côté de ce fichier dans le dépôt, puis remplacez cette carte par :</p>
+      <p><span class="ph">&lt;img src="parking.jpg" alt="Entrée du parking" style="width:100%;border-radius:12px"&gt;</span></p>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════ 03 · WIFI ══════════ -->
+<section id="wifi">
+  <span class="eyebrow">03</span>
+  <h2 class="t">Le Wi-Fi</h2>
+  <p class="sub">Scannez le QR code, ou recopiez — les caractères ambigus sont levés.</p>
+  <div class="wifi on-dark">
+    <div class="bloc">
+      <div>
+        <div class="lab">Réseau</div>
+        <div class="val"><span id="ssid" class="ph">Nom du réseau</span><button class="copy" data-copy="ssid">copier</button></div>
+      </div>
+      <div class="bloc-sep">
+        <div class="lab">Mot de passe</div>
+        <div class="val"><span id="pass" class="ph">Mot de passe</span><button class="copy" data-copy="pass">copier</button></div>
+      </div>
+    </div>
+    <div id="qrwrap">
+      <div id="qr"></div>
+      <div class="qr-cap">Scanner pour se connecter</div>
+    </div>
+  </div>
+  <div class="grid" style="margin-top:16px">
+    <div class="card"><h3>Caractères qui se ressemblent</h3><p><strong>0</strong> est un zéro, <strong>O</strong> un O majuscule, <strong>l</strong> un L minuscule, <strong>1</strong> le chiffre un, <strong>I</strong> un i majuscule.</p></div>
+    <div class="card"><h3>Où est la box</h3><p><span class="ph">emplacement</span></p></div>
+    <div class="card"><h3>En cas de coupure</h3><p>Débranchez la box 30 secondes puis rebranchez. Comptez 3 minutes avant le retour du réseau.</p></div>
+  </div>
+</section>
+
+<!-- ══════════ 04 · LE GÎTE ══════════ -->
+<section id="maison">
+  <div class="duo" style="gap:40px">
+    <div style="flex:1 1 320px;display:flex;flex-direction:column;gap:16px">
+      <div>
+        <span class="eyebrow">04</span>
+        <h2 class="t">Le gîte</h2>
+      </div>
+      <p style="margin:0;color:var(--texte);font-size:17px">Une maison pour 4 personnes, face à la Loire. Voici comment elle fonctionne.</p>
+      <div class="chips">
+        <span class="chip">4 couchages</span>
+        <span class="chip">1 lit double</span>
+        <span class="chip">2 lits superposés</span>
+        <span class="chip">Vue sur la Loire</span>
+        <span class="chip">Parking privatif</span>
+      </div>
+    </div>
+    <div style="flex:2 1 520px;min-width:0;grid-template-columns:repeat(auto-fit,minmax(310px,1fr))" class="grid">
+
+      <div class="card">
+        <h3>Les chambres</h3>
+        <ul>
+          <li>Chambre 1 : lit double 140×190</li>
+          <li>Chambre 2 : lits superposés 90×190 — couchage du haut déconseillé aux enfants de moins de 6 ans</li>
+          <li>Couettes, oreillers et protège-matelas sont fournis</li>
+          <li>Linge de lit et de toilette : <span class="ph">fourni / en option</span></li>
+          <li>Couvertures supplémentaires : à demander</li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <h3>Cuisine</h3>
+        <ul>
+          <li>Plaques de cuisson à induction, 3 feux</li>
+          <li>Four et micro-ondes à disposition</li>
+          <li>Cafetière à filtre, bouilloire, grille-pain, mixeur</li>
+          <li>Merci de laisser la vaisselle propre et rangée à votre départ</li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <h3>Séjour</h3>
+        <ul>
+          <li>TV : <span class="ph">télécommande, chaînes, mode d'emploi</span></li>
+          <li>Jeux de société et documentation touristique à votre disposition <span class="ph">emplacement</span></li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <h3>Buanderie et entretien</h3>
+        <ul>
+          <li>Lave-linge : <span class="ph">emplacement, programme conseillé</span></li>
+          <li>Lessive : <span class="ph">fournie / non fournie</span></li>
+          <li>Fer et table à repasser, étendoir, aspirateur : <span class="ph">emplacement</span></li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <h3>Chauffage et eau chaude</h3>
+        <ul>
+          <li>Chauffage : <span class="ph">type et fonctionnement, ex. thermostat réglé sur 19 °C</span></li>
+          <li>Ballon d'eau chaude : <span class="ph">capacité</span> L, prévoir un peu d'attente entre deux douches</li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <h3>Extérieur</h3>
+        <ul>
+          <li>Salon de jardin et parasol : merci de replier le parasol en cas de vent</li>
+          <li>Barbecue / plancha : <span class="ph">consignes, charbon fourni ou non</span>. Ne jamais laisser sans surveillance</li>
+          <li>Vélos : <span class="ph">emplacement pour les ranger</span> · pompe et kit de réparation à disposition</li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <h3>Bébé</h3>
+        <ul>
+          <li>Chaise haute et lit parapluie disponibles <span class="ph">emplacement</span></li>
+        </ul>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ══════════ 05 · RÈGLES ET MENTIONS ══════════ -->
+<section id="regles">
+  <span class="eyebrow">05</span>
+  <h2 class="t">Les règles et les mentions</h2>
+  <p class="sub">Le vivre-ensemble, puis les mentions obligatoires.</p>
+  <div class="duo">
+    <div class="bloc-sombre on-dark">
+      <h2>Règles de la maison</h2>
+      <ul class="puces">
+        <li><span class="dot" aria-hidden="true"></span><span>Gîte <b>non-fumeur</b>, cigarette électronique comprise à l'intérieur</span></li>
+        <li><span class="dot" aria-hidden="true"></span><span><b>Animaux</b> : <span class="ph">acceptés sur demande / non acceptés</span></span></li>
+        <li><span class="dot" aria-hidden="true"></span><span><b>Fêtes et soirées</b> non autorisées</span></li>
+        <li><span class="dot" aria-hidden="true"></span><span>Merci de respecter le <b>calme du voisinage</b> après 22h</span></li>
+        <li><span class="dot" aria-hidden="true"></span><span><b>Capacité maximale</b> : 4 personnes</span></li>
+        <li><span class="dot" aria-hidden="true"></span><span>Tout objet <b>cassé ou abîmé</b> doit nous être signalé</span></li>
+      </ul>
+    </div>
+    <div class="bloc-pale">
+      <h2>Mentions</h2>
+      <ul class="puces">
+        <li><span class="dot" aria-hidden="true"></span><span><b>N° d'enregistrement</b> — <span class="ph">à compléter après déclaration en mairie de Saumur</span>.</span></li>
+        <li><span class="dot" aria-hidden="true"></span><span><b>Taxe de séjour</b> — <span class="ph">0,00 €</span> par personne et par nuit. Depuis 2019, Airbnb collecte et reverse cette taxe pour les communes concernées : via cette plateforme, elle est déjà incluse dans votre paiement.</span></li>
+        <li><span class="dot" aria-hidden="true"></span><span><b>Classement</b> — <span class="ph">Gîtes de France, à compléter après la visite</span>.</span></li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="duo" style="margin-top:16px">
+    <div class="card" style="flex:1 1 400px">
+      <h3>Tri et déchets</h3>
+      <ul>
+        <li><strong>Bac jaune</strong> : emballages en plastique, métal, carton et papier</li>
+        <li><strong>Verre</strong> : <span class="ph">point d'apport volontaire le plus proche</span></li>
+        <li><strong>Ordures ménagères</strong> : sac noir dans le bac <span class="ph">couleur</span></li>
+        <li><strong>Collecte</strong> : <span class="ph">jours</span> · bacs <span class="ph">emplacement</span></li>
+      </ul>
+      <p style="margin-top:14px;font-size:14px">Les consignes de tri peuvent évoluer : en cas de doute, consultez les consignes de Saumur Val de Loire Agglomération. <span class="ph">à vérifier</span></p>
+
+      <h3 style="margin-top:22px">Où sortir les bacs</h3>
+      <div class="carte-box" style="margin-top:12px">
+        <div id="carte-dechets" role="img" aria-label="Emplacement des bacs à déchets"></div>
+        <div class="carte-pied"><span>Carte fixe, zoomée sur l'emplacement des bacs — utilisez + et − pour ajuster.</span></div>
+      </div>
+    </div>
+    <div class="bloc-pale" style="flex:1 1 400px">
+      <h2>Nos écogestes</h2>
+      <p style="margin:-10px 0 18px;font-size:16px;color:#1E3A5F">Nous sommes attentifs à l'environnement et vous remercions de nous aider :</p>
+      <ul class="puces" style="gap:11px;font-size:15.5px">
+        <li><span class="dot" aria-hidden="true"></span><span>Éteignez les lumières et le chauffage en quittant le gîte</span></li>
+        <li><span class="dot" aria-hidden="true"></span><span>Fermez les fenêtres quand le chauffage fonctionne</span></li>
+        <li><span class="dot" aria-hidden="true"></span><span>Privilégiez les douches courtes : l'eau chaude est limitée</span></li>
+        <li><span class="dot" aria-hidden="true"></span><span>Triez vos déchets</span></li>
+        <li><span class="dot" aria-hidden="true"></span><span>Découvrez la région à vélo grâce à la Loire à Vélo</span></li>
+        <li><span class="dot" aria-hidden="true"></span><span>Achetez local : marchés, producteurs et vignerons du Saumurois</span></li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════ 06 · AVANT DE PARTIR ══════════ -->
+<section id="depart">
+  <span class="eyebrow">06</span>
+  <h2 class="t">Avant de partir</h2>
+  <p class="sub">Merci de vérifier ces quelques points avant votre départ.</p>
+  <div class="bloc-pale">
+    <ul class="check" id="check">
+      <li><svg class="ok" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#123E7A" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12l5 5 9-10"/></svg><span>Vaisselle lavée et rangée</span></li>
+      <li><svg class="ok" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#123E7A" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12l5 5 9-10"/></svg><span>Réfrigérateur vidé</span></li>
+      <li><svg class="ok" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#123E7A" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12l5 5 9-10"/></svg><span>Poubelles vidées dans les bacs extérieurs</span></li>
+      <li><svg class="ok" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#123E7A" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12l5 5 9-10"/></svg><span>Draps retirés et déposés <span class="ph">emplacement</span> <span class="ph">si option ménage</span></span></li>
+      <li><svg class="ok" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#123E7A" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12l5 5 9-10"/></svg><span>Fenêtres et volets fermés</span></li>
+      <li><svg class="ok" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#123E7A" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12l5 5 9-10"/></svg><span>Lumières, chauffage et appareils éteints</span></li>
+      <li><svg class="ok" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#123E7A" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12l5 5 9-10"/></svg><span>Clés remises dans la boîte à clés</span></li>
+    </ul>
+    <p class="apres">Départ avant <span class="ph">10h</span>. Le reste, on s'en occupe.</p>
+  </div>
+</section>
+
+<!-- ══════════ PLANS ══════════ -->
+<section id="plans">
+  <h2 class="t">Les plans</h2>
+  <p class="sub">Où nous trouver, et comment la maison est organisée.</p>
+  <div class="carte-box">
+    <div class="carte-outils" role="group" aria-label="Filtrer les lieux">
+      <button class="filtre" type="button" data-filtre="tout" aria-pressed="true">Tout afficher</button>
+      <button class="filtre" type="button" data-filtre="visite" aria-pressed="false">Visites</button>
+      <button class="filtre" type="button" data-filtre="vin" aria-pressed="false">Caves &amp; vins</button>
+      <button class="filtre" type="button" data-filtre="pratique" aria-pressed="false">Commerces &amp; pratique</button>
+    </div>
+    <div id="carte" role="application" aria-label="Carte des lieux autour de La Maison Bleue"></div>
+    <div class="carte-pied">
+      <div class="legende" id="legende">
+        <span data-leg="gite">Le gîte</span>
+        <span data-leg="visite">Visites</span>
+        <span data-leg="vin">Caves &amp; vins</span>
+        <span data-leg="pratique">Commerces &amp; pratique</span>
+      </div>
+      <a href="https://www.openstreetmap.org/#map=13/47.2400/-0.0900" target="_blank" rel="noopener">Ouvrir dans OpenStreetMap →</a>
+    </div>
+  </div>
+  <p style="margin:12px 0 0;font-size:14px;color:var(--texte)">Les positions sont approximatives — les coordonnées se modifient dans la liste <strong>LIEUX</strong>, en bas du fichier. <span class="ph">à ajuster</span></p>
+  <div class="plan">
+    <!-- PLAN DU GÎTE — déplacez les rectangles et renommez les pièces -->
+    <svg viewBox="0 0 640 360" role="img" aria-label="Plan du gîte">
+      <defs><style>
+        .r{fill:#EAF1FA;stroke:#1F5FAF;stroke-width:1.5}
+        .t{font-family:Sora,sans-serif;font-size:15px;font-weight:600;fill:#0F2747}
+        .s{font-family:Inter,sans-serif;font-size:11px;fill:#4A6283;letter-spacing:.06em}
+      </style></defs>
+      <rect class="r" x="30" y="30" width="260" height="180" rx="12"/>
+      <text class="t" x="52" y="62">Séjour &amp; cuisine</text>
+      <text class="s" x="52" y="84">VUE SUR LA LOIRE</text>
+
+      <rect class="r" x="310" y="30" width="150" height="110" rx="12"/>
+      <text class="t" x="330" y="62">Chambre 1</text>
+      <text class="s" x="330" y="82">LIT 140×190</text>
+
+      <rect class="r" x="480" y="30" width="130" height="110" rx="12"/>
+      <text class="t" x="500" y="62">Chambre 2</text>
+      <text class="s" x="500" y="82">SUPERPOSÉS</text>
+
+      <rect class="r" x="310" y="160" width="150" height="110" rx="12"/>
+      <text class="t" x="330" y="192">Salle d'eau</text>
+      <text class="s" x="330" y="212">+ WC</text>
+
+      <rect class="r" x="480" y="160" width="130" height="110" rx="12"/>
+      <text class="t" x="500" y="192">Entrée</text>
+      <text class="s" x="500" y="212">BOÎTE À CLÉS</text>
+
+      <rect x="30" y="236" width="260" height="90" rx="12" fill="#DCE8F7" stroke="#7FA6D8" stroke-width="1.5" stroke-dasharray="6 5"/>
+      <text class="t" x="52" y="272">Terrasse</text>
+      <text class="s" x="52" y="294">SALON DE JARDIN · BARBECUE</text>
+
+      <path d="M545 276 L545 316" stroke="#1F5FAF" stroke-width="2" stroke-dasharray="5 5" fill="none"/>
+      <text class="s" x="516" y="334">ENTRÉE</text>
+    </svg>
+    <p class="cap">Plan indicatif — <span class="ph">à ajuster à votre logement</span>.</p>
+  </div>
+</section>
+
+<!-- ══════════ DÉCOUVRIR SAUMUR ══════════ -->
+<section id="environs">
+  <h2 class="t">Découvrir Saumur et ses environs</h2>
+  <p class="sub">Nos incontournables, à quelques minutes de la maison.</p>
+  <p class="sub" style="margin-top:-18px">Cliquez sur une adresse pour la situer sur la carte.</p>
+  <div class="grid">
+    <a class="visite" href="#carte" data-lieu="chateau"><div class="img" style="background:#C7D9EF" role="img" aria-label="[Photo du château]"></div>
+      <div class="corps"><div class="cat">Patrimoine</div><h3>Château de Saumur</h3><p>Vue splendide sur la Loire et la ville.</p><span class="voir">Voir sur la carte →</span></div></a>
+    <a class="visite" href="#carte" data-lieu="cadre-noir"><div class="img" style="background:#B3CBEA" role="img" aria-label="[Photo du Cadre Noir]"></div>
+      <div class="corps"><div class="cat">Équitation</div><h3>Cadre Noir de Saumur</h3><p>Visites et galas équestres à l'École nationale d'équitation.</p><span class="voir">Voir sur la carte →</span></div></a>
+    <a class="visite" href="#carte" data-lieu="fontevraud"><div class="img" style="background:#A0BDE3" role="img" aria-label="[Photo de l'abbaye]"></div>
+      <div class="corps"><div class="cat">Excursion</div><h3>Abbaye royale de Fontevraud</h3><p>À environ 15 km.</p><span class="voir">Voir sur la carte →</span></div></a>
+    <a class="visite" href="#carte" data-lieu="montsoreau"><div class="img" style="background:#8CAFDC" role="img" aria-label="[Photo de Montsoreau]"></div>
+      <div class="corps"><div class="cat">Village</div><h3>Château de Montsoreau</h3><p>L'un des plus beaux villages de France.</p><span class="voir">Voir sur la carte →</span></div></a>
+    <a class="visite" href="#carte" data-lieu="blindes"><div class="img" style="background:#C7D9EF" role="img" aria-label="[Photo du Musée des Blindés]"></div>
+      <div class="corps"><div class="cat">Musée</div><h3>Musée des Blindés</h3><p>L'une des plus importantes collections au monde.</p><span class="voir">Voir sur la carte →</span></div></a>
+    <a class="visite" href="#carte" data-lieu="bioparc"><div class="img" style="background:#B3CBEA" role="img" aria-label="[Photo du Bioparc]"></div>
+      <div class="corps"><div class="cat">En famille</div><h3>Bioparc de Doué-la-Fontaine</h3><p>Zoo troglodytique : idéal avec des enfants.</p><span class="voir">Voir sur la carte →</span></div></a>
+  </div>
+
+  <div class="duo" style="margin-top:16px">
+    <div class="card" style="flex:1 1 340px">
+      <h3>Troglodytes et vins</h3>
+      <ul>
+        <li>Caves de Saumur, dégustations de fines bulles : <a href="#carte" data-lieu="ackerman">Ackerman</a>, <a href="#carte" data-lieu="bouvet">Bouvet-Ladubay</a>, <a href="#carte" data-lieu="gratien">Gratien &amp; Meyer</a></li>
+        <li>Sites troglodytiques : villages et caves creusés dans le tuffeau</li>
+      </ul>
+    </div>
+    <div class="card" style="flex:1 1 340px">
+      <h3>À vélo</h3>
+      <ul>
+        <li>La Loire à Vélo passe par Saumur : balades faciles le long du fleuve</li>
+        <li>Location de vélos : Cycl'O de Loire · 1 avenue du Général de Gaulle, Saumur · 02 41 38 14 99</li>
+      </ul>
+    </div>
+    <div class="card" style="flex:1 1 340px">
+      <h3>Office de tourisme Saumur Val de Loire</h3>
+      <ul>
+        <li><a href="#carte" data-lieu="office">8 bis quai Carnot</a>, Saumur · 02 41 40 20 60</li>
+        <li>Informations, billetterie, cartes de randonnée et espace de dégustation de vins locaux</li>
+      </ul>
+    </div>
+  </div>
+
+  <h3 class="st">Nos bonnes adresses</h3>
+  <dl class="kv">
+    <div><dt>Boulangerie</dt><dd><span class="ph">Nom · adresse</span></dd></div>
+    <div><dt>Supermarché</dt><dd><span class="ph">Nom · adresse</span></dd></div>
+    <div><dt>Marché</dt><dd><span class="ph">Jour · lieu</span></dd></div>
+    <div><dt>Restaurant</dt><dd><span class="ph">Nom · adresse · notre coup de cœur</span></dd></div>
+    <div><dt>Restaurant</dt><dd><span class="ph">Nom · adresse</span></dd></div>
+    <div><dt>Pharmacie</dt><dd><span class="ph">Nom · adresse</span></dd></div>
+    <div><dt>Vigneron / producteur</dt><dd><span class="ph">Nom · adresse</span></dd></div>
+  </dl>
+</section>
+
+<!-- ══════════ LIENS UTILES ══════════ -->
+<section id="liens">
+  <h2 class="t">Liens utiles</h2>
+  <p class="sub">À ouvrir depuis votre téléphone.</p>
+  <div class="liens">
+    <a class="lien" href="https://www.ot-saumur.fr" target="_blank" rel="noopener"><span><b>Office de tourisme</b><small>ot-saumur.fr · 8 bis quai Carnot</small></span><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#1F5FAF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8"/></svg></a>
+    <a class="lien" href="#"><span><b>Itinéraire jusqu'à la maison</b><small><span class="ph">lien Google Maps</span></small></span><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#1F5FAF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8"/></svg></a>
+    <a class="lien" href="#"><span><b>Consignes de tri de l'agglomération</b><small><span class="ph">lien</span></small></span><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#1F5FAF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8"/></svg></a>
+    <a class="lien" href="#"><span><b>Laisser un avis</b><small><span class="ph">lien</span></small></span><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#1F5FAF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8"/></svg></a>
+  </div>
+</section>
+
+<!-- ══════════ CONTACT + URGENCES ══════════ -->
+<section id="contact">
+  <h2 class="t">En cas d'urgence</h2>
+  <p class="sub">À garder sous la main. Appelez-nous aussi, à toute heure.</p>
+  <div class="bloc-accent on-accent" style="display:flex;flex-wrap:wrap;gap:32px;justify-content:space-between;align-items:center">
+    <div style="flex:1 1 320px;min-width:0">
+      <h2>Une question ?</h2>
+      <p style="margin:0;font-size:17px;line-height:1.6;color:#E4EEFA">Katia et Philippe sont joignables pendant tout votre séjour.</p>
+      <div class="btns">
+        <a class="btn" style="background:#fff;color:#0F2747" href="tel:+33600000000">Nous appeler</a>
+        <a class="btn" style="border:1.5px solid rgba(255,255,255,.6);color:#fff" href="mailto:contact@email.fr">Envoyer un e-mail</a>
+      </div>
+      <p style="margin:18px 0 0;font-size:15px;color:#E4EEFA"><span class="ph">06 XX XX XX XX</span> · <span class="ph">email</span></p>
+    </div>
+    <div class="urg">
+      <div class="lab">Urgences</div>
+      <div class="num3">
+        <div><b>15</b><small>SAMU</small></div>
+        <div><b>18</b><small>Pompiers</small></div>
+        <div><b>112</b><small>Europe</small></div>
+      </div>
+      <ul class="urg-liste">
+        <li><span>Police / Gendarmerie</span><b>17</b></li>
+        <li><span>Médecin de garde</span><b>116 117</b></li>
+        <li><span>Pharmacie de garde</span><b>3237</b></li>
+        <li><span>CH de Saumur · 1 rte de Fontevraud</span><b>02 41 53 30 30</b></li>
+        <li><span>Centre antipoison Angers <span class="ph">à vérifier</span></span><b>02 41 48 21 21</b></li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="grid" style="margin-top:16px">
+    <div class="card"><div class="lab">Extincteur</div><p style="margin-top:8px"><span class="ph">emplacement</span></p></div>
+    <div class="card"><div class="lab">Trousse de secours</div><p style="margin-top:8px"><span class="ph">emplacement</span></p></div>
+    <div class="card"><div class="lab">Compteur électrique</div><p style="margin-top:8px"><span class="ph">emplacement</span></p></div>
+    <div class="card"><div class="lab">Coupure d'eau</div><p style="margin-top:8px"><span class="ph">emplacement</span></p></div>
+  </div>
+</section>
+
+<!-- ══════════ VOTRE AVIS COMPTE ══════════ -->
+<section id="avis" style="padding-bottom:72px">
+  <div class="bloc-sombre on-dark" style="text-align:center">
+    <h2 style="font-size:30px">Votre avis compte</h2>
+    <p style="margin:0 auto;max-width:620px;font-size:17px;line-height:1.7;color:#D6E2F2">
+      Vous avez aimé votre séjour ? Un petit mot dans le livre d'or ou un avis en ligne nous aide énormément.
+      Une remarque, une suggestion ? Dites-le-nous directement, nous ferons tout pour nous améliorer.
+    </p>
+    <div class="btns" style="justify-content:center;margin-top:24px">
+      <a class="btn" style="background:#fff;color:#0F2747" href="#">Laisser un avis</a>
+      <a class="btn" style="border:1.5px solid rgba(255,255,255,.6);color:#fff" href="mailto:contact@email.fr">Nous écrire</a>
+    </div>
+  </div>
+  <p class="fin">Merci et à bientôt au bord de la Loire — Katia et Philippe</p>
+</section>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
+<script>
+(function(){
+  "use strict";
+
+  /* QR code wifi — lit le réseau et le mot de passe affichés ci-dessus */
+  var ssid = (document.getElementById('ssid')||{}).textContent || '';
+  var pass = (document.getElementById('pass')||{}).textContent || '';
+  var box  = document.getElementById('qr');
+  var wrap = document.getElementById('qrwrap');
+  function esc(s){ return s.trim().replace(/([\\;,:"])/g,'\\$1'); }
+  if (box && window.QRCode && ssid) {
+    try {
+      new QRCode(box, {
+        text:'WIFI:T:WPA;S:'+esc(ssid)+';P:'+esc(pass)+';;',
+        width:128, height:128,
+        colorDark:'#0F2747', colorLight:'#ffffff',
+        correctLevel: QRCode.CorrectLevel.M
+      });
+    } catch(e){ if (wrap) wrap.style.display='none'; }
+  } else if (wrap) { wrap.style.display='none'; }
+
+  /* boutons copier */
+  document.querySelectorAll('.copy').forEach(function(btn){
+    btn.addEventListener('click', function(){
+      var el = document.getElementById(btn.dataset.copy); if(!el) return;
+      var txt = el.textContent.trim();
+      var done = function(){ var o=btn.textContent; btn.textContent='copié';
+        setTimeout(function(){ btn.textContent=o; },1600); };
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(txt).then(done, function(){});
+      } else {
+        var t=document.createElement('textarea'); t.value=txt;
+        document.body.appendChild(t); t.select();
+        try{ document.execCommand('copy'); done(); }catch(e){}
+        document.body.removeChild(t);
+      }
+    });
+  });
+
+  /* check-list de départ */
+  var list = document.getElementById('check');
+  if (list) list.querySelectorAll('li').forEach(function(li){
+    li.addEventListener('click', function(){ li.classList.toggle('done'); });
+  });
+
+  /* lien de navigation actif */
+  var links={}, secs=[];
+  document.querySelectorAll('.menu a').forEach(function(a){
+    var id=a.getAttribute('href').slice(1), s=document.getElementById(id);
+    if(s){ links[id]=a; secs.push(s); }
+  });
+  if ('IntersectionObserver' in window && secs.length) {
+    var io=new IntersectionObserver(function(es){
+      es.forEach(function(e){
+        if(e.isIntersecting){
+          Object.keys(links).forEach(function(k){ links[k].classList.remove('on'); });
+          links[e.target.id].classList.add('on');
+        }
+      });
+    },{rootMargin:'-45% 0px -50% 0px'});
+    secs.forEach(function(s){ io.observe(s); });
+  }
+})();
+</script>
+
+<script>
+/* ═══════════════════════════════════════════════════════════════
+   LES CARTES
+   ───────────────────────────────────────────────────────────────
+   LIEUX : un objet par point de la carte.
+     id   : sert au lien depuis la section « Autour » (data-lieu)
+     cat  : "gite" | "visite" | "vin" | "pratique"  (filtres + couleur)
+     lat / lng : coordonnées. Pour les relever : clic droit sur
+     openstreetmap.org → « Afficher l'adresse », ou Google Maps →
+     clic droit → les deux nombres affichés.
+   ⚠ Les coordonnées ci-dessous sont approximatives : à vérifier.
+
+   DECHETS : position et zoom de la carte figée des bacs.
+   ═══════════════════════════════════════════════════════════════ */
+var LIEUX = [
+  {id:'gite',       cat:'gite',     nom:'La Maison Bleue',            lat:47.2630, lng:-0.0765, txt:'4 rue du Tire Jarret, 49400 Saumur · [position à ajuster]'},
+  {id:'chateau',    cat:'visite',   nom:'Château de Saumur',          lat:47.2576, lng:-0.0745, txt:'Vue sur la Loire et la ville'},
+  {id:'cadre-noir', cat:'visite',   nom:'Cadre Noir de Saumur',       lat:47.2733, lng:-0.1123, txt:'École nationale d\'équitation · visites et galas'},
+  {id:'blindes',    cat:'visite',   nom:'Musée des Blindés',          lat:47.2669, lng:-0.0617, txt:'Collection de chars parmi les plus vastes au monde'},
+  {id:'fontevraud', cat:'visite',   nom:'Abbaye de Fontevraud',       lat:47.1817, lng: 0.0516, txt:'À environ 15 km'},
+  {id:'montsoreau', cat:'visite',   nom:'Château de Montsoreau',      lat:47.2160, lng: 0.0620, txt:'L\'un des plus beaux villages de France'},
+  {id:'bioparc',    cat:'visite',   nom:'Bioparc de Doué-la-Fontaine',lat:47.1936, lng:-0.2868, txt:'Zoo troglodytique, idéal en famille'},
+  {id:'ackerman',   cat:'vin',      nom:'Ackerman',                   lat:47.2708, lng:-0.1004, txt:'Caves et fines bulles · Saint-Hilaire-Saint-Florent'},
+  {id:'bouvet',     cat:'vin',      nom:'Bouvet-Ladubay',             lat:47.2742, lng:-0.1076, txt:'Caves et fines bulles · Saint-Hilaire-Saint-Florent'},
+  {id:'gratien',    cat:'vin',      nom:'Gratien & Meyer',            lat:47.2498, lng:-0.0497, txt:'Caves et fines bulles · route de Montsoreau'},
+  {id:'office',     cat:'pratique', nom:'Office de tourisme',         lat:47.2616, lng:-0.0777, txt:'8 bis quai Carnot · 02 41 40 20 60'},
+  {id:'velo',       cat:'pratique', nom:'Cycl\'O de Loire',           lat:47.2637, lng:-0.0743, txt:'Location de vélos · 02 41 38 14 99'},
+  {id:'boulangerie',cat:'pratique', nom:'Boulangerie',                lat:47.2645, lng:-0.0790, txt:'[Nom et adresse à compléter]'},
+  {id:'pharmacie',  cat:'pratique', nom:'Pharmacie',                  lat:47.2605, lng:-0.0735, txt:'[Nom et adresse à compléter]'}
+];
+var DECHETS = {lat:47.2631, lng:-0.0768, zoom:18, txt:'Bacs à déchets · [emplacement à préciser]'};
+
+(function(){
+  "use strict";
+  var COULEUR = {gite:'#123E7A', visite:'#1F5FAF', vin:'#0F2747', pratique:'#4E83C4'};
+  var cible = document.getElementById('carte');
+
+  if (!window.L || !cible) {
+    ['carte','carte-dechets'].forEach(function(id){
+      var el = document.getElementById(id);
+      if (el) { el.style.height='auto';
+        el.innerHTML = '<p class="carte-ko">La carte n\'a pas pu se charger. Vérifiez votre connexion.</p>'; }
+    });
+    return;
+  }
+
+  /* un pictogramme par catégorie : la couleur seule ne suffit pas à distinguer les points */
+  var GLYPHE = {
+    gite:'M8.4 13.6 13 9.3l4.6 4.3V18H8.4z',
+    visite:'M13 7.8l1.5 3.2 3.4.4-2.5 2.3.7 3.3-3.1-1.7-3.1 1.7.7-3.3-2.5-2.3 3.4-.4z',
+    vin:'M9.8 8.4h6.4l-2.4 3.8V16h1.8v1.4h-5.2V16h1.8v-3.8z',
+    pratique:'M9.6 11.4h6.8V18H9.6zm1.6 0a1.8 1.8 0 0 1 3.6 0'
+  };
+  function pin(couleur, cat){
+    return L.divIcon({
+      className:'', iconSize:[26,34], iconAnchor:[13,34], popupAnchor:[0,-30],
+      html:'<svg class="pin" viewBox="0 0 26 34" aria-hidden="true">'+
+           '<path d="M13 33C13 33 24 21.5 24 13A11 11 0 1 0 2 13c0 8.5 11 20 11 20z" fill="'+couleur+'" stroke="#fff" stroke-width="2"/>'+
+           '<path d="'+(GLYPHE[cat]||GLYPHE.visite)+'" fill="none" stroke="#fff" stroke-width="1.6" stroke-linejoin="round" stroke-linecap="round"/></svg>'
+    });
+  }
+
+  var carte = L.map('carte', {scrollWheelZoom:false});
+  L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    maxZoom:19, attribution:'&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+  }).addTo(carte);
+
+  var reperes = {}, groupe = L.featureGroup().addTo(carte);
+  LIEUX.forEach(function(l){
+    var m = L.marker([l.lat, l.lng], {icon:pin(COULEUR[l.cat]||COULEUR.visite, l.cat), title:l.nom});
+    m.bindPopup('<b>'+l.nom+'</b><small>'+l.txt+'</small>');
+    m.cat = l.cat; reperes[l.id] = m; groupe.addLayer(m);
+  });
+  carte.fitBounds(groupe.getBounds().pad(0.15));
+
+  /* légende : le même pictogramme que sur la carte */
+  document.querySelectorAll('#legende [data-leg]').forEach(function(s){
+    var c = s.dataset.leg;
+    s.insertAdjacentHTML('afterbegin',
+      '<svg width="15" height="19" viewBox="0 0 26 34" aria-hidden="true">'+
+      '<path d="M13 33C13 33 24 21.5 24 13A11 11 0 1 0 2 13c0 8.5 11 20 11 20z" fill="'+(COULEUR[c])+'"/>'+
+      '<path d="'+(GLYPHE[c])+'" fill="none" stroke="#fff" stroke-width="1.8" stroke-linejoin="round" stroke-linecap="round"/></svg> ');
+  });
+
+  /* filtres */
+  document.querySelectorAll('.filtre').forEach(function(btn){
+    btn.addEventListener('click', function(){
+      var f = btn.dataset.filtre;
+      document.querySelectorAll('.filtre').forEach(function(b){
+        b.setAttribute('aria-pressed', String(b === btn));
+      });
+      groupe.clearLayers();
+      LIEUX.forEach(function(l){
+        if (f === 'tout' || l.cat === f || l.cat === 'gite') groupe.addLayer(reperes[l.id]);
+      });
+      if (groupe.getLayers().length) carte.fitBounds(groupe.getBounds().pad(0.15));
+    });
+  });
+
+  /* liens depuis la section « Autour » et les listes */
+  document.querySelectorAll('[data-lieu]').forEach(function(el){
+    el.addEventListener('click', function(){
+      var m = reperes[el.dataset.lieu];
+      if (!m) return;
+      if (!groupe.hasLayer(m)) groupe.addLayer(m);
+      setTimeout(function(){
+        carte.setView(m.getLatLng(), 15, {animate:true});
+        m.openPopup();
+      }, 420);
+    });
+  });
+
+  /* carte figée des bacs à déchets */
+  var elD = document.getElementById('carte-dechets');
+  if (elD) {
+    var cd = L.map('carte-dechets', {
+      center:[DECHETS.lat, DECHETS.lng], zoom:DECHETS.zoom,
+      dragging:false, scrollWheelZoom:false, doubleClickZoom:false,
+      touchZoom:false, keyboard:false, zoomControl:true
+    });
+    L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      maxZoom:19, attribution:'&copy; OpenStreetMap'
+    }).addTo(cd);
+    L.marker([DECHETS.lat, DECHETS.lng], {icon:pin('#0F2747','pratique')})
+      .addTo(cd).bindPopup('<b>Bacs à déchets</b><small>'+DECHETS.txt+'</small>');
+  }
+})();
+</script>
+</body>
+</html>
