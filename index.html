@@ -112,7 +112,7 @@ dialog.loupe .fermer{position:absolute;top:-44px;right:0;background:none;border:
 <!-- ══════════ LE GÎTE ══════════ -->
 <section id="gite">
   <h2 class="t">Le gîte</h2>
-  <p class="sub">Une maison claire et calme, pensée pour une famille ou un couple, avec tout l'équipement d'un vrai chez-soi.</p>
+  <p class="sub">Une maison claire et calme, pensée pour une famille ou deux couples, avec tout l'équipement d'un vrai chez-soi.</p>
   <div class="duo">
     <div style="flex:1 1 420px">
       <div class="card">
@@ -310,6 +310,17 @@ dialog.loupe .fermer{position:absolute;top:-44px;right:0;background:none;border:
   if (fermer) fermer.addEventListener('click', function(){ document.getElementById('loupe').close(); });
 
   /* ─── calendrier des disponibilités ─── */
+  function reseau(p){
+    return Promise.race([
+      Promise.resolve(p),
+      new Promise(function(_, rej){
+        setTimeout(function(){ rej(new Error('délai dépassé (15 s)')); }, 15000);
+      })
+    ]).catch(function(e){
+      return {error: {message: (e && e.message) || String(e), reseau: true}};
+    });
+  }
+
   var JOURS = ['L','M','M','J','V','S','D'];
   var debut = new Date(); debut.setDate(1);
   var occupes = {};               /* 'AAAA-MM-JJ' → true */
@@ -349,8 +360,8 @@ dialog.loupe .fermer{position:absolute;top:-44px;right:0;background:none;border:
         : "Le calendrier n'a pas pu se charger (connexion indisponible).", 'info');
       peindre(); return;
     }
-    db.from('disponibilites').select('date_arrivee,date_depart').then(function(r){
-      if (r.error) { MB.dire(msg, "Le calendrier n'a pas pu se charger.", 'ko'); peindre(); return; }
+    reseau(db.from('disponibilites').select('date_arrivee,date_depart')).then(function(r){
+      if (r.error) { MB.dire(msg, "Le calendrier n'a pas pu se charger. Écrivez-nous pour connaître nos disponibilités.", 'ko'); peindre(); return; }
       occupes = {};
       (r.data||[]).forEach(function(s){
         var d = new Date(s.date_arrivee + 'T12:00:00'), f = new Date(s.date_depart + 'T12:00:00');
@@ -383,12 +394,12 @@ dialog.loupe .fermer{position:absolute;top:-44px;right:0;background:none;border:
     if (!db) return MB.dire(fmsg, "L'envoi en ligne n'est pas encore actif. Écrivez-nous à " + G.email + ".", 'ko');
 
     btn.disabled = true; MB.dire(fmsg, 'Envoi en cours…', 'info');
-    db.from('reservations').insert({
+    reseau(db.from('reservations').insert({
       nom:d.nom, email:d.email, telephone:d.telephone || null,
       voyageurs:parseInt(d.voyageurs, 10) || null,
       date_arrivee:d.date_arrivee, date_depart:d.date_depart,
       message:d.message || null, statut:'demande', source:'site'
-    }).then(function(r){
+    })).then(function(r){
       btn.disabled = false;
       if (r.error) return MB.dire(fmsg, "L'envoi a échoué. Réessayez, ou écrivez-nous à " + G.email + ".", 'ko');
       f.reset();

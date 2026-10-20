@@ -209,6 +209,27 @@ dialog.fiche h3{font-size:21px;font-weight:600;margin:0 0 18px}
       aMsg = document.getElementById('admin-msg');
   var sejours = [];
 
+  /* Toute requête réseau passe par ici : sans ça, une panne de connexion
+     laisse la page bloquée sur « Connexion… » sans jamais rien afficher. */
+  function reseau(p){
+    return Promise.race([
+      Promise.resolve(p),
+      new Promise(function(_, rej){
+        setTimeout(function(){ rej(new Error('délai dépassé (15 s)')); }, 15000);
+      })
+    ]).catch(function(e){
+      return {error: {message: (e && e.message) || String(e), reseau: true}};
+    });
+  }
+  function pannne(err){
+    return 'Impossible de joindre Supabase : ' + err.message +
+      '. Vérifiez l\'URL et la clé dans assets/config.js, et votre connexion.';
+  }
+
+  if (location.protocol === 'file:') {
+    MB.dire(cMsg, "Cette page est ouverte depuis un fichier local : la connexion à Supabase sera refusée. Ouvrez-la depuis l'adresse du site (https://…).", 'ko');
+  }
+
   if (!db) {
     MB.dire(cMsg, MB.nonConfigure()
       ? "Supabase n'est pas configuré. Remplissez assets/config.js puis exécutez supabase/schema.sql (voir le README)."
@@ -223,12 +244,20 @@ dialog.fiche h3{font-size:21px;font-weight:600;margin:0 0 18px}
     e.preventDefault();
     var b = document.getElementById('btn-connexion');
     b.disabled = true; MB.dire(cMsg, 'Connexion…', 'info');
-    db.auth.signInWithPassword({
+    reseau(db.auth.signInWithPassword({
       email: document.getElementById('l-email').value.trim(),
       password: document.getElementById('l-mdp').value
-    }).then(function(r){
+    })).then(function(r){
       b.disabled = false;
-      if (r.error) return MB.dire(cMsg, 'E-mail ou mot de passe incorrect.', 'ko');
+      if (r.error) {
+        if (r.error.reseau) return MB.dire(cMsg, pannne(r.error), 'ko');
+        var m = String(r.error.message || '');
+        if (/invalid login|credentials/i.test(m))
+          return MB.dire(cMsg, 'E-mail ou mot de passe incorrect.', 'ko');
+        if (/not confirmed/i.test(m))
+          return MB.dire(cMsg, "Ce compte n'est pas confirmé. Dans Supabase → Authentication → Users, ouvrez le compte et confirmez-le.", 'ko');
+        return MB.dire(cMsg, 'Connexion refusée : ' + m, 'ko');
+      }
       MB.taire(cMsg); ouvrir(r.data.user);
     });
   });
@@ -236,8 +265,9 @@ dialog.fiche h3{font-size:21px;font-weight:600;margin:0 0 18px}
   document.getElementById('btn-oubli').addEventListener('click', function(){
     var mail = document.getElementById('l-email').value.trim();
     if (!mail) return MB.dire(cMsg, "Saisissez d'abord votre e-mail.", 'ko');
-    db.auth.resetPasswordForEmail(mail, {redirectTo: location.href}).then(function(){
-      MB.dire(cMsg, 'Un lien de réinitialisation vient de vous être envoyé.', 'ok');
+    reseau(db.auth.resetPasswordForEmail(mail, {redirectTo: location.href})).then(function(r){
+      if (r && r.error && r.error.reseau) return MB.dire(cMsg, pannne(r.error), 'ko');
+      MB.dire(cMsg, 'Si ce compte existe, un lien de réinitialisation vient de vous être envoyé.', 'ok');
     });
   });
 
@@ -245,7 +275,8 @@ dialog.fiche h3{font-size:21px;font-weight:600;margin:0 0 18px}
     db.auth.signOut().then(function(){ location.reload(); });
   });
 
-  db.auth.getSession().then(function(r){
+  reseau(db.auth.getSession()).then(function(r){
+    if (r.error && r.error.reseau) return MB.dire(cMsg, pannne(r.error), 'ko');
     if (r.data && r.data.session) ouvrir(r.data.session.user);
   });
 
@@ -268,8 +299,8 @@ dialog.fiche h3{font-size:21px;font-weight:600;margin:0 0 18px}
 
   /* ─────────── chargement ─────────── */
   function charger(){
-    db.from('reservations').select('*').order('date_arrivee', {ascending:true}).then(function(r){
-      if (r.error) return MB.dire(aMsg, 'Chargement impossible : ' + r.error.message, 'ko');
+    reseau(db.from('reservations').select('*').order('date_arrivee', {ascending:true})).then(function(r){
+      if (r.error) return MB.dire(aMsg, r.error.reseau ? pannne(r.error) : 'Chargement impossible : ' + r.error.message, 'ko');
       MB.taire(aMsg);
       sejours = r.data || [];
       stats(); demandes(); tableau(); peindre();
@@ -324,14 +355,14 @@ dialog.fiche h3{font-size:21px;font-weight:600;margin:0 0 18px}
         var id = b.closest('.demande').dataset.id, act = b.dataset.act;
         if (act === 'supprimer') {
           if (!confirm('Refuser et supprimer cette demande ?')) return;
-          db.from('reservations').delete().eq('id', id).then(fin);
+          reseau(db.from('reservations').delete().eq('id', id)).then(fin);
         } else {
-          db.from('reservations').update({statut: act}).eq('id', id).then(fin);
+          reseau(db.from('reservations').update({statut: act}).eq('id', id)).then(fin);
         }
       });
     });
     function fin(r){
-      if (r.error) return MB.dire(aMsg, 'Action impossible : ' + r.error.message, 'ko');
+      if (r.error) return MB.dire(aMsg, r.error.reseau ? pannne(r.error) : 'Action impossible : ' + r.error.message, 'ko');
       charger();
     }
   }
@@ -361,8 +392,8 @@ dialog.fiche h3{font-size:21px;font-weight:600;margin:0 0 18px}
     corps.querySelectorAll('[data-sup]').forEach(function(b){
       b.addEventListener('click', function(){
         if (!confirm('Supprimer ce séjour ?')) return;
-        db.from('reservations').delete().eq('id', b.closest('tr').dataset.id).then(function(r){
-          if (r.error) return MB.dire(aMsg, 'Suppression impossible.', 'ko');
+        reseau(db.from('reservations').delete().eq('id', b.closest('tr').dataset.id)).then(function(r){
+          if (r.error) return MB.dire(aMsg, r.error.reseau ? pannne(r.error) : 'Suppression impossible : ' + r.error.message, 'ko');
           charger();
         });
       });
@@ -463,8 +494,8 @@ dialog.fiche h3{font-size:21px;font-weight:600;margin:0 0 18px}
     MB.dire(sMsg, 'Enregistrement…', 'info');
     var req = id ? db.from('reservations').update(ligne).eq('id', id)
                  : db.from('reservations').insert(ligne);
-    req.then(function(r){
-      if (r.error) return MB.dire(sMsg, 'Échec : ' + r.error.message, 'ko');
+    reseau(req).then(function(r){
+      if (r.error) return MB.dire(sMsg, r.error.reseau ? pannne(r.error) : 'Échec : ' + r.error.message, 'ko');
       vider(); MB.dire(sMsg, id ? 'Séjour modifié.' : 'Séjour ajouté.', 'ok');
       charger();
     });
