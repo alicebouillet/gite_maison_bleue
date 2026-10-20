@@ -21,8 +21,8 @@ window.CONFIG = {
     accroche: 'Gîte 4 personnes à Saumur, vue sur la Loire',
     adresse: '4 rue du Tire Jarret, 49400 Saumur',
     hotes: 'Katia et Philippe',
-    telephone: '06 XX XX XX XX',
-    email: 'contact@email.fr',
+    telephone: '06 08 64 55 64',
+    email: 'katalice.bouillet@free.fr',
     capacite: 4,
     chambres: 2,
     arrivee: '16h',
@@ -34,10 +34,10 @@ window.CONFIG = {
     nuit: '00 €',
     semaine: '000 €',
     nuits_min: 2,
-    menage: '00 € (forfait)',
-    caution: '000 €',
-    taxe_sejour: '0,00 € par personne et par nuit',
-    linge: 'Draps et linge de toilette : 00 € par personne',
+    menage: '50 € (forfait)',
+    caution: '600 €',
+    taxe_sejour: '1,00 € par personne et par nuit',
+    linge: 'Draps et linge de toilette : 5 € par personne',
     note: 'Tarifs indicatifs — à ajuster selon la saison.'
   },
 
@@ -47,11 +47,11 @@ window.CONFIG = {
      Laissez src vide ('') pour afficher un cadre gris en attendant. */
   PHOTOS: [
     {src:'', alt:'La maison vue de la rue',        legende:'La maison'},
-    {src:'', alt:'Le séjour avec vue sur la Loire', legende:'Le séjour, vue sur la Loire'},
-    {src:'', alt:'La cuisine équipée',              legende:'La cuisine'},
-    {src:'', alt:'La chambre avec lit double',      legende:'Chambre 1 — lit double'},
-    {src:'', alt:'La chambre avec lits superposés', legende:'Chambre 2 — lits superposés'},
-    {src:'', alt:'La terrasse',                     legende:'La terrasse'}
+    {src:'assets/photos/salon_gite.jpg', alt:'Le séjour', legende:'Le séjour, vue sur la Loire'},
+    {src:'assets/photos/cusine_gite.jpg', alt:'La cuisine équipée',              legende:'La cuisine'},
+    {src:'assets/photos/chambre_gite.jpg', alt:'La chambre avec lit double',      legende:'Chambre 1 — lit double'},
+    {src:'assets/photos/chambre_parent_gite.jpg', alt:'La chambre avec lits superposés', legende:'Chambre 2 — lits superposés'},
+    {src:'assets/photos/sdb_gite.jpg', alt:'La salle de bain', legende:'La salle de bain'}
   ]
 };
 
