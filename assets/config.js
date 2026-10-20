@@ -12,8 +12,8 @@
    qu'à ce que les règles RLS autorisent (voir supabase/schema.sql).
    Ne mettez JAMAIS la clé « service_role » ici.                      */
 window.CONFIG = {
-  SUPABASE_URL: 'https://VOTRE-PROJET.supabase.co',
-  SUPABASE_ANON_KEY: 'VOTRE_CLE_ANON',
+  SUPABASE_URL: 'https://gctxitppsoecfrynaabi.supabase.co',
+  SUPABASE_ANON_KEY: 'sb_publishable_Sm7zSpF6csROPVmmAEAXMw_Ycgl_7y9',
 
   /* 2 ─ LE GÎTE */
   GITE: {
@@ -46,9 +46,9 @@ window.CONFIG = {
      puis remplacez les valeurs "src" ci-dessous.
      Laissez src vide ('') pour afficher un cadre gris en attendant. */
   PHOTOS: [
-    {src:'', alt:'La maison vue de la rue',        legende:'La maison'},
+    {src:'assets/photos/exterieur_gite.jpg', alt:'La maison vue de la rue',        legende:'La maison'},
     {src:'assets/photos/salon_gite.jpg', alt:'Le séjour', legende:'Le séjour, vue sur la Loire'},
-    {src:'assets/photos/cusine_gite.jpg', alt:'La cuisine équipée',              legende:'La cuisine'},
+    {src:'assets/photos/cuisine_gite.jpg', alt:'La cuisine équipée',              legende:'La cuisine'},
     {src:'assets/photos/chambre_gite.jpg', alt:'La chambre avec lit double',      legende:'Chambre 1 — lit double'},
     {src:'assets/photos/chambre_parent_gite.jpg', alt:'La chambre avec lits superposés', legende:'Chambre 2 — lits superposés'},
     {src:'assets/photos/sdb_gite.jpg', alt:'La salle de bain', legende:'La salle de bain'}
