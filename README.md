@@ -6,7 +6,7 @@ Site du gîte : vitrine publique, livret d'accueil et espace propriétaire.
 |---|---|---|
 | Vitrine | `index.html` | Les visiteurs, avant de réserver |
 | Livret d'accueil | `livret.html` | Les voyageurs, pendant le séjour |
-| Espace propriétaire | `admin.html` | Katia et Philippe, avec mot de passe |
+| Espace propriétaire | `admin.html` | Les propriétaies, avec mot de passe |
 
 Site statique : HTML, CSS et JavaScript, sans build ni dépendance à installer.
 Les données (réservations, demandes) sont dans **Supabase**.
