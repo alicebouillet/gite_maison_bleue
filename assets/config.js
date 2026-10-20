@@ -32,7 +32,7 @@ window.CONFIG = {
   /* 3 ─ TARIFS  (affichés sur la vitrine) */
   TARIFS: {
     nuit: '00 €',
-    semaine: '000 €',
+    semaine: '650 €',
     nuits_min: 2,
     menage: '50 € (forfait)',
     caution: '600 €',
@@ -49,8 +49,8 @@ window.CONFIG = {
     {src:'assets/photos/exterieur_gite.jpg', alt:'La maison vue de la rue',        legende:'La maison'},
     {src:'assets/photos/salon_gite.jpg', alt:'Le séjour', legende:'Le séjour, vue sur la Loire'},
     {src:'assets/photos/cuisine_gite.jpg', alt:'La cuisine équipée',              legende:'La cuisine'},
-    {src:'assets/photos/chambre_gite.jpg', alt:'La chambre avec lit double',      legende:'Chambre 1 — lit double'},
-    {src:'assets/photos/chambre_parent_gite.jpg', alt:'La chambre avec lits superposés', legende:'Chambre 2 — lits superposés'},
+    {src:'assets/photos/chambre_parent_gite.jpg', alt:'La chambre avec lit double',      legende:'Chambre 1 — lit double'},
+    {src:'assets/photos/chambre_gite.jpg', alt:'La chambre avec lits superposés', legende:'Chambre 2 — lits superposés'},
     {src:'assets/photos/sdb_gite.jpg', alt:'La salle de bain', legende:'La salle de bain'}
   ]
 };
